@@ -30,6 +30,7 @@ raw/events/dt=YYYY-MM-DD/events-<shard>.jsonl
 s3://datalake/raw/events/dt=2026-02-27/events-00.jsonl
 ```
 
+- 초기 단계에서는 events.jsonl처럼 단일 파일명을 사용해도 무방하며, 데이터 규모가 커지면 events-<shard>.jsonl로 확장합니다.
 - `dt=YYYY-MM-DD`는 파티션 키입니다.
 - `shard`는 파일 분할 단위입니다(병렬 처리/재처리 대비). 초기에는 `00` 하나만 써도 됩니다.
 
