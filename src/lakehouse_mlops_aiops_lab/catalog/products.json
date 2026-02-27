@@ -1,0 +1,1602 @@
+[
+  {
+    "product_id": "P000001",
+    "category_id": "C02",
+    "base_price": 14600,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000002",
+    "category_id": "C02",
+    "base_price": 185400,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000003",
+    "category_id": "C07",
+    "base_price": 9200,
+    "brand": "Darae",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000004",
+    "category_id": "C01",
+    "base_price": 309300,
+    "brand": "Darae",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000005",
+    "category_id": "C07",
+    "base_price": 33900,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000006",
+    "category_id": "C03",
+    "base_price": 117800,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000007",
+    "category_id": "C02",
+    "base_price": 32300,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000008",
+    "category_id": "C05",
+    "base_price": 34800,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000009",
+    "category_id": "C02",
+    "base_price": 152700,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000010",
+    "category_id": "C04",
+    "base_price": 193700,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000011",
+    "category_id": "C02",
+    "base_price": 232200,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000012",
+    "category_id": "C08",
+    "base_price": 55800,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000013",
+    "category_id": "C02",
+    "base_price": 167700,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000014",
+    "category_id": "C03",
+    "base_price": 128200,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000015",
+    "category_id": "C04",
+    "base_price": 188500,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000016",
+    "category_id": "C04",
+    "base_price": 17400,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000017",
+    "category_id": "C04",
+    "base_price": 157700,
+    "brand": "Hanul",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000018",
+    "category_id": "C07",
+    "base_price": 89300,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000019",
+    "category_id": "C05",
+    "base_price": 236600,
+    "brand": "Lumen",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000020",
+    "category_id": "C03",
+    "base_price": 140600,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000021",
+    "category_id": "C03",
+    "base_price": 171500,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000022",
+    "category_id": "C02",
+    "base_price": 108900,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000023",
+    "category_id": "C05",
+    "base_price": 18000,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000024",
+    "category_id": "C05",
+    "base_price": 190300,
+    "brand": "Hanul",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000025",
+    "category_id": "C01",
+    "base_price": 393600,
+    "brand": "Darae",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000026",
+    "category_id": "C03",
+    "base_price": 140100,
+    "brand": "Mori",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000027",
+    "category_id": "C04",
+    "base_price": 49100,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000028",
+    "category_id": "C01",
+    "base_price": 329000,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000029",
+    "category_id": "C05",
+    "base_price": 137500,
+    "brand": "Orbi",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000030",
+    "category_id": "C02",
+    "base_price": 199900,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000031",
+    "category_id": "C03",
+    "base_price": 40700,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000032",
+    "category_id": "C05",
+    "base_price": 288700,
+    "brand": "Lumen",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000033",
+    "category_id": "C04",
+    "base_price": 195900,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000034",
+    "category_id": "C08",
+    "base_price": 75800,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000035",
+    "category_id": "C06",
+    "base_price": 2400,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000036",
+    "category_id": "C01",
+    "base_price": 52200,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000037",
+    "category_id": "C01",
+    "base_price": 188200,
+    "brand": "Hanul",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000038",
+    "category_id": "C04",
+    "base_price": 150400,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000039",
+    "category_id": "C08",
+    "base_price": 39800,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000040",
+    "category_id": "C02",
+    "base_price": 33400,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000041",
+    "category_id": "C08",
+    "base_price": 15100,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000042",
+    "category_id": "C01",
+    "base_price": 226100,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000043",
+    "category_id": "C04",
+    "base_price": 59200,
+    "brand": "Pico",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000044",
+    "category_id": "C03",
+    "base_price": 80000,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000045",
+    "category_id": "C08",
+    "base_price": 20800,
+    "brand": "Nova",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000046",
+    "category_id": "C02",
+    "base_price": 205500,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000047",
+    "category_id": "C08",
+    "base_price": 36000,
+    "brand": "Kairo",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000048",
+    "category_id": "C07",
+    "base_price": 5300,
+    "brand": "Hanul",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000049",
+    "category_id": "C05",
+    "base_price": 233800,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000050",
+    "category_id": "C08",
+    "base_price": 28300,
+    "brand": "Nova",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000051",
+    "category_id": "C01",
+    "base_price": 407200,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000052",
+    "category_id": "C03",
+    "base_price": 21900,
+    "brand": "Kairo",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000053",
+    "category_id": "C02",
+    "base_price": 164000,
+    "brand": "Pico",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000054",
+    "category_id": "C02",
+    "base_price": 241400,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000055",
+    "category_id": "C02",
+    "base_price": 117900,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000056",
+    "category_id": "C05",
+    "base_price": 119100,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000057",
+    "category_id": "C07",
+    "base_price": 22200,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000058",
+    "category_id": "C02",
+    "base_price": 10400,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000059",
+    "category_id": "C02",
+    "base_price": 148900,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000060",
+    "category_id": "C02",
+    "base_price": 238500,
+    "brand": "Hanul",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000061",
+    "category_id": "C05",
+    "base_price": 289300,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000062",
+    "category_id": "C02",
+    "base_price": 238200,
+    "brand": "Orbi",
+    "shipping_class": "economy",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000063",
+    "category_id": "C03",
+    "base_price": 78400,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000064",
+    "category_id": "C04",
+    "base_price": 189200,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000065",
+    "category_id": "C05",
+    "base_price": 38600,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000066",
+    "category_id": "C01",
+    "base_price": 16900,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000067",
+    "category_id": "C03",
+    "base_price": 122800,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000068",
+    "category_id": "C02",
+    "base_price": 27700,
+    "brand": "Kairo",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000069",
+    "category_id": "C01",
+    "base_price": 208600,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000070",
+    "category_id": "C01",
+    "base_price": 176600,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000071",
+    "category_id": "C06",
+    "base_price": 14800,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000072",
+    "category_id": "C07",
+    "base_price": 86400,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000073",
+    "category_id": "C03",
+    "base_price": 53400,
+    "brand": "Aster",
+    "shipping_class": "express",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000074",
+    "category_id": "C07",
+    "base_price": 110200,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000075",
+    "category_id": "C05",
+    "base_price": 95500,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000076",
+    "category_id": "C08",
+    "base_price": 37200,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000077",
+    "category_id": "C05",
+    "base_price": 131300,
+    "brand": "Pico",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000078",
+    "category_id": "C06",
+    "base_price": 19300,
+    "brand": "Mori",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000079",
+    "category_id": "C06",
+    "base_price": 43000,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000080",
+    "category_id": "C06",
+    "base_price": 2800,
+    "brand": "Kairo",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000081",
+    "category_id": "C05",
+    "base_price": 32100,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000082",
+    "category_id": "C07",
+    "base_price": 84500,
+    "brand": "Bori",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000083",
+    "category_id": "C04",
+    "base_price": 75800,
+    "brand": "Darae",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000084",
+    "category_id": "C04",
+    "base_price": 104500,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000085",
+    "category_id": "C06",
+    "base_price": 44500,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000086",
+    "category_id": "C05",
+    "base_price": 226100,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000087",
+    "category_id": "C03",
+    "base_price": 57300,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000088",
+    "category_id": "C05",
+    "base_price": 224900,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000089",
+    "category_id": "C04",
+    "base_price": 121700,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000090",
+    "category_id": "C08",
+    "base_price": 65900,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000091",
+    "category_id": "C03",
+    "base_price": 179700,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000092",
+    "category_id": "C06",
+    "base_price": 7100,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000093",
+    "category_id": "C04",
+    "base_price": 61200,
+    "brand": "Hanul",
+    "shipping_class": "economy",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000094",
+    "category_id": "C02",
+    "base_price": 127400,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000095",
+    "category_id": "C07",
+    "base_price": 69800,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000096",
+    "category_id": "C02",
+    "base_price": 212100,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000097",
+    "category_id": "C08",
+    "base_price": 14600,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000098",
+    "category_id": "C08",
+    "base_price": 25500,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000099",
+    "category_id": "C06",
+    "base_price": 50500,
+    "brand": "Darae",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000100",
+    "category_id": "C07",
+    "base_price": 113900,
+    "brand": "Kairo",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000101",
+    "category_id": "C08",
+    "base_price": 67000,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000102",
+    "category_id": "C08",
+    "base_price": 39400,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000103",
+    "category_id": "C04",
+    "base_price": 80200,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000104",
+    "category_id": "C03",
+    "base_price": 46500,
+    "brand": "Lumen",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000105",
+    "category_id": "C02",
+    "base_price": 116800,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000106",
+    "category_id": "C01",
+    "base_price": 123400,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000107",
+    "category_id": "C01",
+    "base_price": 416400,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000108",
+    "category_id": "C05",
+    "base_price": 216500,
+    "brand": "Pico",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000109",
+    "category_id": "C04",
+    "base_price": 137000,
+    "brand": "Nova",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000110",
+    "category_id": "C07",
+    "base_price": 49100,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000111",
+    "category_id": "C08",
+    "base_price": 24700,
+    "brand": "Pico",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000112",
+    "category_id": "C01",
+    "base_price": 59000,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000113",
+    "category_id": "C03",
+    "base_price": 20200,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000114",
+    "category_id": "C06",
+    "base_price": 23100,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000115",
+    "category_id": "C05",
+    "base_price": 54900,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000116",
+    "category_id": "C06",
+    "base_price": 15700,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000117",
+    "category_id": "C01",
+    "base_price": 144600,
+    "brand": "Kairo",
+    "shipping_class": "economy",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000118",
+    "category_id": "C04",
+    "base_price": 42100,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000119",
+    "category_id": "C08",
+    "base_price": 41600,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000120",
+    "category_id": "C02",
+    "base_price": 211900,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000121",
+    "category_id": "C01",
+    "base_price": 178600,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000122",
+    "category_id": "C07",
+    "base_price": 98700,
+    "brand": "Lumen",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000123",
+    "category_id": "C02",
+    "base_price": 190800,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000124",
+    "category_id": "C02",
+    "base_price": 216700,
+    "brand": "Aster",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000125",
+    "category_id": "C07",
+    "base_price": 91700,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000126",
+    "category_id": "C01",
+    "base_price": 235200,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000127",
+    "category_id": "C08",
+    "base_price": 28100,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000128",
+    "category_id": "C08",
+    "base_price": 68900,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000129",
+    "category_id": "C06",
+    "base_price": 56800,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000130",
+    "category_id": "C08",
+    "base_price": 40000,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000131",
+    "category_id": "C06",
+    "base_price": 2900,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000132",
+    "category_id": "C04",
+    "base_price": 102000,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000133",
+    "category_id": "C05",
+    "base_price": 17300,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000134",
+    "category_id": "C07",
+    "base_price": 69000,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000135",
+    "category_id": "C08",
+    "base_price": 66700,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000136",
+    "category_id": "C07",
+    "base_price": 95700,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000137",
+    "category_id": "C08",
+    "base_price": 77600,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000138",
+    "category_id": "C06",
+    "base_price": 24100,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000139",
+    "category_id": "C04",
+    "base_price": 40600,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000140",
+    "category_id": "C03",
+    "base_price": 57200,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000141",
+    "category_id": "C05",
+    "base_price": 64700,
+    "brand": "Aster",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000142",
+    "category_id": "C03",
+    "base_price": 86200,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000143",
+    "category_id": "C01",
+    "base_price": 43600,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000144",
+    "category_id": "C08",
+    "base_price": 21400,
+    "brand": "Hanul",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000145",
+    "category_id": "C08",
+    "base_price": 65700,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000146",
+    "category_id": "C08",
+    "base_price": 23000,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000147",
+    "category_id": "C01",
+    "base_price": 94500,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000148",
+    "category_id": "C02",
+    "base_price": 73100,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000149",
+    "category_id": "C04",
+    "base_price": 212300,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000150",
+    "category_id": "C05",
+    "base_price": 236800,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000151",
+    "category_id": "C02",
+    "base_price": 207900,
+    "brand": "Orbi",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000152",
+    "category_id": "C03",
+    "base_price": 69900,
+    "brand": "Nova",
+    "shipping_class": "economy",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000153",
+    "category_id": "C07",
+    "base_price": 64000,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000154",
+    "category_id": "C04",
+    "base_price": 84500,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000155",
+    "category_id": "C02",
+    "base_price": 188200,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000156",
+    "category_id": "C04",
+    "base_price": 120400,
+    "brand": "Kairo",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000157",
+    "category_id": "C05",
+    "base_price": 86600,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000158",
+    "category_id": "C05",
+    "base_price": 242200,
+    "brand": "Pico",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000159",
+    "category_id": "C05",
+    "base_price": 274400,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000160",
+    "category_id": "C01",
+    "base_price": 241500,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000161",
+    "category_id": "C02",
+    "base_price": 68000,
+    "brand": "Bori",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000162",
+    "category_id": "C01",
+    "base_price": 416000,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000163",
+    "category_id": "C03",
+    "base_price": 130300,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000164",
+    "category_id": "C03",
+    "base_price": 160400,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000165",
+    "category_id": "C08",
+    "base_price": 53600,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000166",
+    "category_id": "C03",
+    "base_price": 93500,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000167",
+    "category_id": "C01",
+    "base_price": 253500,
+    "brand": "Orbi",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000168",
+    "category_id": "C07",
+    "base_price": 118400,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000169",
+    "category_id": "C08",
+    "base_price": 62200,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000170",
+    "category_id": "C08",
+    "base_price": 65900,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000171",
+    "category_id": "C03",
+    "base_price": 82500,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000172",
+    "category_id": "C01",
+    "base_price": 345300,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000173",
+    "category_id": "C05",
+    "base_price": 19200,
+    "brand": "Orbi",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000174",
+    "category_id": "C08",
+    "base_price": 23400,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000175",
+    "category_id": "C05",
+    "base_price": 229800,
+    "brand": "Lumen",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000176",
+    "category_id": "C08",
+    "base_price": 27000,
+    "brand": "Darae",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000177",
+    "category_id": "C03",
+    "base_price": 25300,
+    "brand": "Pico",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000178",
+    "category_id": "C06",
+    "base_price": 52600,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000179",
+    "category_id": "C05",
+    "base_price": 268700,
+    "brand": "Hanul",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000180",
+    "category_id": "C06",
+    "base_price": 22800,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000181",
+    "category_id": "C06",
+    "base_price": 58000,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000182",
+    "category_id": "C07",
+    "base_price": 35600,
+    "brand": "Aster",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000183",
+    "category_id": "C08",
+    "base_price": 58000,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000184",
+    "category_id": "C08",
+    "base_price": 12900,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000185",
+    "category_id": "C02",
+    "base_price": 237200,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000186",
+    "category_id": "C01",
+    "base_price": 393800,
+    "brand": "Kairo",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000187",
+    "category_id": "C02",
+    "base_price": 131100,
+    "brand": "Bori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000188",
+    "category_id": "C07",
+    "base_price": 90200,
+    "brand": "Darae",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000189",
+    "category_id": "C07",
+    "base_price": 46500,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000190",
+    "category_id": "C01",
+    "base_price": 338700,
+    "brand": "Mori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000191",
+    "category_id": "C04",
+    "base_price": 204800,
+    "brand": "Orbi",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000192",
+    "category_id": "C08",
+    "base_price": 29800,
+    "brand": "Nova",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000193",
+    "category_id": "C06",
+    "base_price": 53200,
+    "brand": "Pico",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000194",
+    "category_id": "C03",
+    "base_price": 71000,
+    "brand": "Kairo",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000195",
+    "category_id": "C03",
+    "base_price": 52900,
+    "brand": "Bori",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000196",
+    "category_id": "C04",
+    "base_price": 139500,
+    "brand": "Hanul",
+    "shipping_class": "express",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000197",
+    "category_id": "C05",
+    "base_price": 252900,
+    "brand": "Hanul",
+    "shipping_class": "standard",
+    "is_fragile": true
+  },
+  {
+    "product_id": "P000198",
+    "category_id": "C05",
+    "base_price": 298600,
+    "brand": "Aster",
+    "shipping_class": "economy",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000199",
+    "category_id": "C05",
+    "base_price": 234500,
+    "brand": "Mori",
+    "shipping_class": "standard",
+    "is_fragile": false
+  },
+  {
+    "product_id": "P000200",
+    "category_id": "C04",
+    "base_price": 109800,
+    "brand": "Pico",
+    "shipping_class": "express",
+    "is_fragile": false
+  }
+]

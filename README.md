@@ -159,6 +159,87 @@ http://localhost:9001
 
 ---
 
+## 📦 Raw Data Ingest (MinIO Data Lake)
+
+이 프로젝트는 MinIO(S3 호환)를 Data Lake처럼 사용합니다.
+
+### ⚠ 실행 전 필수 조건
+
+로컬 인프라가 반드시 실행 중이어야 합니다:
+
+```bash
+docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+```
+
+MinIO Console: http://localhost:9001  
+MLflow UI: http://localhost:5000  
+
+---
+
+## 1️⃣ Raw 이벤트 생성
+
+```bash
+uv run python -m lakehouse_mlops_aiops_lab.ingest.generate_events \
+  --date 2026-02-27 \
+  --rows 20000 \
+  --out ./tmp/events.jsonl
+```
+
+생성된 파일은 JSON Lines 형식입니다.
+
+---
+
+## 2️⃣ MinIO 업로드
+
+PowerShell 예시:
+
+```powershell
+$env:MINIO_ENDPOINT="http://localhost:9000"
+$env:AWS_ACCESS_KEY_ID="minioadmin"
+$env:AWS_SECRET_ACCESS_KEY="minioadmin123"
+$env:AWS_DEFAULT_REGION="ap-northeast-2"
+
+uv run python -m lakehouse_mlops_aiops_lab.ingest.upload_raw_events \
+  --date 2026-02-27 \
+  --infile ./tmp/events.jsonl
+```
+
+저장 경로:
+
+```
+s3://datalake/raw/events/dt=2026-02-27/events.jsonl
+```
+
+---
+
+## 3️⃣ End-to-End Smoke Test
+
+```bash
+uv run python scripts/smoke_raw_ingest.py
+```
+
+검증 내용:
+
+- 이벤트 생성
+- S3 업로드
+- S3 다운로드
+- 라인 수 비교
+
+---
+
+## 🔎 Raw 데이터 설계 특징
+
+- UTC 기반 event_time / ingest_time
+- late arriving 데이터 포함
+- duplicate resend 포함
+- dirty data (결측/타입 드리프트) 일부 포함
+- schema_version 기반 스키마 진화
+
+이 설계는 이후 Spark/Iceberg/dbt 단계에서
+현실적인 데이터 처리 문제를 재현하기 위한 것입니다.
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
