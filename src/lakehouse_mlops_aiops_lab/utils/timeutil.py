@@ -8,8 +8,7 @@ def utc_now() -> datetime:
 
 
 def iso(dt: datetime) -> str:
-    return (
-        dt.astimezone(timezone.utc)
-        .isoformat(timespec="milliseconds")
-        .replace("+00:00", "Z")
-    )
+    # Guard against naive datetime being interpreted as local time.
+    if dt.tzinfo is None or dt.utcoffset() is None:
+        raise ValueError("iso() requires timezone-aware datetime (UTC expected).")
+    return dt.astimezone(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
