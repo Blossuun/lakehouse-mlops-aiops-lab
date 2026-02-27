@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import random
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -41,7 +40,9 @@ def parse_date_utc(date_str: str) -> datetime:
     return datetime(y, m, d, tzinfo=timezone.utc)
 
 
-def weighted_choice(rng: np.random.Generator, items: list[str], probs: list[float]) -> str:
+def weighted_choice(
+    rng: np.random.Generator, items: list[str], probs: list[float]
+) -> str:
     idx = rng.choice(len(items), p=probs)
     return items[int(idx)]
 
@@ -55,7 +56,11 @@ def make_session_id() -> str:
     return uuid.uuid4().hex
 
 
-def pick_product(rng: np.random.Generator, products: list[dict[str, Any]], allow_unknown_rate: float = 0.01) -> dict[str, Any]:
+def pick_product(
+    rng: np.random.Generator,
+    products: list[dict[str, Any]],
+    allow_unknown_rate: float = 0.01,
+) -> dict[str, Any]:
     # 참조 무결성 깨짐(unknown product) 재현
     if rng.random() < allow_unknown_rate:
         return {
@@ -95,18 +100,30 @@ def make_geo(rng: np.random.Generator) -> dict[str, Any]:
 def make_source(rng: np.random.Generator) -> dict[str, Any]:
     return {
         "referrer": rng.choice(["direct", "search", "ad", "email", "social"]),
-        "utm_campaign": rng.choice(["none", "brand", "promo", "retarget", "influencer"]),
+        "utm_campaign": rng.choice(
+            ["none", "brand", "promo", "retarget", "influencer"]
+        ),
         "utm_medium": rng.choice(["none", "cpc", "organic", "newsletter", "social"]),
     }
 
 
-def maybe_make_dirty(rng: np.random.Generator, event: dict[str, Any], dirty_rate: float) -> None:
+def maybe_make_dirty(
+    rng: np.random.Generator, event: dict[str, Any], dirty_rate: float
+) -> None:
     """실무에서 흔한 결측/형식 오류를 일부 주입."""
     if rng.random() >= dirty_rate:
         return
 
     # 몇 가지 대표적인 더티 케이스를 랜덤 적용
-    choice = rng.choice(["missing_user", "null_product", "price_string", "negative_qty", "missing_session"])
+    choice = rng.choice(
+        [
+            "missing_user",
+            "null_product",
+            "price_string",
+            "negative_qty",
+            "missing_session",
+        ]
+    )
     if choice == "missing_user":
         event["user_id"] = None
     elif choice == "null_product":
@@ -122,7 +139,9 @@ def maybe_make_dirty(rng: np.random.Generator, event: dict[str, Any], dirty_rate
         event["session_id"] = None
 
 
-def maybe_late_ingest(rng: np.random.Generator, event_time: datetime, late_rate: float) -> datetime:
+def maybe_late_ingest(
+    rng: np.random.Generator, event_time: datetime, late_rate: float
+) -> datetime:
     """late arriving data: event_time은 과거인데 ingest_time은 이후."""
     if rng.random() >= late_rate:
         return event_time + timedelta(seconds=int(rng.integers(0, 30)))
@@ -163,7 +182,9 @@ def build_event(
     if event_type in ("view", "add_to_cart", "purchase"):
         p = pick_product(rng, products, allow_unknown_rate=0.015)
         base_price = p.get("base_price") or int(rng.integers(5000, 200000))
-        price = int(max(100, rng.normal(loc=base_price, scale=max(500, base_price * 0.15))))
+        price = int(
+            max(100, rng.normal(loc=base_price, scale=max(500, base_price * 0.15)))
+        )
 
         payload: dict[str, Any] = {
             "product_id": p.get("product_id"),
@@ -196,8 +217,12 @@ def build_event(
                     "order_id": order_id,
                     "quantity": qty,
                     "total_amount": total,
-                    "payment_method": rng.choice(["card", "kakao_pay", "naver_pay", "bank_transfer"]),
-                    "coupon_id": rng.choice([None, "CP10", "CP20", "FREESHIP"]) if purchase_bias > 0.5 else None,
+                    "payment_method": rng.choice(
+                        ["card", "kakao_pay", "naver_pay", "bank_transfer"]
+                    ),
+                    "coupon_id": rng.choice([None, "CP10", "CP20", "FREESHIP"])
+                    if purchase_bias > 0.5
+                    else None,
                 }
             )
         event["payload"] = payload
@@ -212,7 +237,9 @@ def build_event(
         event["payload"] = {
             "order_id": f"O{rng.integers(1, 30000000):08d}",
             "refund_amount": int(max(100, rng.normal(loc=25000, scale=15000))),
-            "reason_code": rng.choice(["changed_mind", "defect", "late_delivery", "wrong_item"]),
+            "reason_code": rng.choice(
+                ["changed_mind", "defect", "late_delivery", "wrong_item"]
+            ),
         }
 
     maybe_make_dirty(rng, event, config.dirty_rate)
@@ -272,7 +299,10 @@ def generate_events(config: GenConfig) -> list[dict[str, Any]]:
         if rng.random() < config.duplicate_rate:
             dup = dict(ev)
             # 재전송이므로 ingest_time만 약간 뒤로
-            dup["ingest_time"] = iso(parse_date_utc(config.date) + timedelta(days=1, seconds=int(rng.integers(0, 3600))))
+            dup["ingest_time"] = iso(
+                parse_date_utc(config.date)
+                + timedelta(days=1, seconds=int(rng.integers(0, 3600)))
+            )
             events.append(dup)
 
     # out-of-order(순서 뒤틀림)를 파일 레벨에서 재현: 일부 섞어서 shuffle

@@ -3,8 +3,16 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from lakehouse_mlops_aiops_lab.ingest.generate_events import GenConfig, generate_events, write_jsonl
-from lakehouse_mlops_aiops_lab.utils.s3util import S3Config, ensure_bucket, make_s3_client
+from lakehouse_mlops_aiops_lab.ingest.generate_events import (
+    GenConfig,
+    generate_events,
+    write_jsonl,
+)
+from lakehouse_mlops_aiops_lab.utils.s3util import (
+    S3Config,
+    ensure_bucket,
+    make_s3_client,
+)
 
 
 def count_lines(p: Path) -> int:

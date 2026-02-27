@@ -10,7 +10,11 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--n", type=int, default=200)
     p.add_argument("--seed", type=int, default=42)
-    p.add_argument("--out", type=Path, default=Path("src/lakehouse_mlops_aiops_lab/catalog/products.json"))
+    p.add_argument(
+        "--out",
+        type=Path,
+        default=Path("src/lakehouse_mlops_aiops_lab/catalog/products.json"),
+    )
     args = p.parse_args()
 
     rng = random.Random(args.seed)
@@ -25,19 +29,30 @@ def main() -> int:
         ("C07", "pet"),
         ("C08", "books"),
     ]
-    brands = ["Nova", "Orbi", "Kairo", "Lumen", "Mori", "Aster", "Pico", "Hanul", "Darae", "Bori"]
+    brands = [
+        "Nova",
+        "Orbi",
+        "Kairo",
+        "Lumen",
+        "Mori",
+        "Aster",
+        "Pico",
+        "Hanul",
+        "Darae",
+        "Bori",
+    ]
     shipping_classes = ["economy", "standard", "express"]
 
     # 카테고리별 대략적 가격대(현업 느낌)
     price_ranges = {
         "C01": (15000, 450000),  # electronics
-        "C02": (8000, 250000),   # home
-        "C03": (7000, 180000),   # beauty
-        "C04": (9000, 220000),   # fashion
+        "C02": (8000, 250000),  # home
+        "C03": (7000, 180000),  # beauty
+        "C04": (9000, 220000),  # fashion
         "C05": (12000, 300000),  # sports
-        "C06": (1000, 60000),    # grocery
-        "C07": (5000, 120000),   # pet
-        "C08": (8000, 80000),    # books
+        "C06": (1000, 60000),  # grocery
+        "C07": (5000, 120000),  # pet
+        "C08": (8000, 80000),  # books
     }
 
     products: list[dict] = []
@@ -69,7 +84,9 @@ def main() -> int:
         )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(products, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.out.write_text(
+        json.dumps(products, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(f"OK: wrote {len(products)} products -> {args.out}")
     return 0
 

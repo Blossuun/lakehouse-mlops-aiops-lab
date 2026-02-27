@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
-from typing import Optional
 
 import boto3
 
@@ -28,8 +27,12 @@ class S3Config:
         sk = os.environ.get(secret_key_env)
         region = os.environ.get(region_env, default_region)
         if not ak or not sk:
-            raise RuntimeError(f"Missing {access_key_env}/{secret_key_env} in environment.")
-        return S3Config(endpoint_url=endpoint, access_key_id=ak, secret_access_key=sk, region=region)
+            raise RuntimeError(
+                f"Missing {access_key_env}/{secret_key_env} in environment."
+            )
+        return S3Config(
+            endpoint_url=endpoint, access_key_id=ak, secret_access_key=sk, region=region
+        )
 
 
 def make_s3_client(cfg: S3Config):

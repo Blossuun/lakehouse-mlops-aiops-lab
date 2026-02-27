@@ -3,14 +3,20 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from lakehouse_mlops_aiops_lab.utils.s3util import S3Config, ensure_bucket, make_s3_client
+from lakehouse_mlops_aiops_lab.utils.s3util import (
+    S3Config,
+    ensure_bucket,
+    make_s3_client,
+)
 
 
 def parse_args():
     p = argparse.ArgumentParser(description="Upload raw events file to MinIO(S3).")
     p.add_argument("--bucket", default="datalake")
     p.add_argument("--date", required=True, help="partition date YYYY-MM-DD")
-    p.add_argument("--infile", type=Path, required=True, help="path to local jsonl file")
+    p.add_argument(
+        "--infile", type=Path, required=True, help="path to local jsonl file"
+    )
     p.add_argument("--prefix", default="raw/events", help="base prefix under bucket")
     p.add_argument("--name", default="events.jsonl", help="object filename")
     return p.parse_args()
