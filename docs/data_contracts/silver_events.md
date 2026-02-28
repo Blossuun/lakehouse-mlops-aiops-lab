@@ -25,7 +25,8 @@ s3://datalake/silver/events/dt=2026-02-27/part-00000.parquet
 ```
 
 - `dt=YYYY-MM-DD`는 파티션 키(UTC 기준)입니다.
-- 초기에는 1개 파트 파일로 시작하고, 데이터 규모가 커지면 파트 분할을 확장합니다.
+- Silver는 데이터량에 따라 `part-00000.parquet`, `part-00001.parquet`처럼 여러 파일(part)로 저장됩니다.
+- 초기에는 part가 1개일 수도 있으며, row batch size 설정에 따라 파트 수가 결정됩니다.
 
 ---
 
