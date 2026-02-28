@@ -5,6 +5,8 @@ from dataclasses import dataclass
 
 import boto3
 
+from typing import Iterable
+
 
 @dataclass(frozen=True)
 class S3Config:
@@ -55,3 +57,48 @@ def ensure_bucket(s3, bucket: str) -> None:
         return
     except Exception:
         s3.create_bucket(Bucket=bucket)
+
+
+def list_keys(s3, bucket: str, prefix: str) -> list[str]:
+    """List object keys under prefix."""
+    keys: list[str] = []
+    token = None
+    while True:
+        kwargs = {"Bucket": bucket, "Prefix": prefix}
+        if token:
+            kwargs["ContinuationToken"] = token
+        resp = s3.list_objects_v2(**kwargs)
+        for obj in resp.get("Contents", []):
+            keys.append(obj["Key"])
+        if resp.get("IsTruncated"):
+            token = resp.get("NextContinuationToken")
+        else:
+            break
+    return keys
+
+
+def get_text(s3, bucket: str, key: str, encoding: str = "utf-8") -> str:
+    resp = s3.get_object(Bucket=bucket, Key=key)
+    return resp["Body"].read().decode(encoding)
+
+
+def put_bytes(
+    s3,
+    bucket: str,
+    key: str,
+    data: bytes,
+    content_type: str = "application/octet-stream",
+) -> None:
+    s3.put_object(Bucket=bucket, Key=key, Body=data, ContentType=content_type)
+
+
+def iter_lines(s3, bucket: str, key: str) -> Iterable[bytes]:
+    """
+    Stream object content line by line as bytes.
+    Suitable for JSONL without loading whole file into memory.
+    """
+    resp = s3.get_object(Bucket=bucket, Key=key)
+    body = resp["Body"]
+    # botocore supports iter_lines()
+    for line in body.iter_lines():
+        yield line
