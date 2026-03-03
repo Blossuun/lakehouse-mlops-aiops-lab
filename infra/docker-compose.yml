@@ -64,6 +64,26 @@ services:
       timeout: 3s
       retries: 20
 
+  spark:
+    image: apache/spark:3.5.5-scala2.12-java17-python3-ubuntu
+    container_name: lab-spark
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      # Use env credentials rather than hardcoding in spark-defaults.conf
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+    volumes:
+      - ./spark/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf:ro
+      - ../jobs:/opt/lab/jobs:ro
+      - ../scripts:/opt/lab/scripts:ro
+    working_dir: /opt/lab
+    command: ["/bin/bash", "-lc", "sleep infinity"]
+    ports:
+      - "4040:4040"
+
 volumes:
   minio_data:
   pg_data:
