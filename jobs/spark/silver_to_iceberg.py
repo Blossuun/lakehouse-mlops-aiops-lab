@@ -50,10 +50,7 @@ def main() -> int:
     )
 
     # dt 파티션만 덮어쓰기(동일 date rerun 안전)
-    (
-        df.writeTo(full_table)
-        .overwritePartitions()
-    )
+    (df.writeTo(full_table).overwritePartitions())
 
     # smoke 출력(간단 count)
     cnt = spark.table(full_table).where(F.col("dt") == args.date).count()
