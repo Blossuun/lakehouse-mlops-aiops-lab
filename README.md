@@ -240,6 +240,64 @@ uv run python scripts/smoke_raw_ingest.py
 
 ---
 
+## 🪙 Silver 변환 (Raw JSONL → Parquet, PyArrow)
+
+Raw(JSONL)는 원본 보존과 유연성이 장점이지만, 컬럼형 처리/분석에는 비효율적입니다.  
+Silver 레이어에서는 **스키마를 고정**하고 **최소 정제**를 수행한 뒤 **Parquet**로 저장합니다.
+
+### ⚠ 실행 전 필수 조건
+
+1) 로컬 인프라 실행 (MinIO 필요)
+
+```bash
+docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+```
+
+2) Raw 데이터가 MinIO에 존재해야 합니다(PR #3)
+
+- `s3://datalake/raw/events/dt=YYYY-MM-DD/*.jsonl`
+
+---
+
+### Transform 실행
+
+PowerShell 예시:
+
+```powershell
+$env:MINIO_ENDPOINT="http://localhost:9000"
+$env:AWS_ACCESS_KEY_ID="minioadmin"
+$env:AWS_SECRET_ACCESS_KEY="minioadmin123"
+$env:AWS_DEFAULT_REGION="ap-northeast-2"
+
+uv run python -m lakehouse_mlops_aiops_lab.transform.raw_to_silver_events --date 2026-02-27
+```
+
+출력 경로(멀티 파트):
+
+```
+s3://datalake/silver/events/dt=2026-02-27/part-*.parquet
+```
+
+- Raw JSONL을 스트리밍으로 읽고
+- `event_id` 기준 dedup을 수행하며
+- 일정 row 단위로 Parquet 파트를 생성합니다.
+
+---
+
+### Smoke Test (Raw → Silver)
+
+```bash
+uv run python scripts/smoke_silver_transform.py
+```
+
+검증 내용:
+- Raw 파일 존재 확인
+- 변환 실행
+- Silver Parquet 파트 파일 존재 확인
+- Silver 전체에서 event_id 중복이 없는지 확인
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
