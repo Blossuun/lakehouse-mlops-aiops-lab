@@ -14,7 +14,7 @@
 ## 왜 Hadoop catalog인가?
 - 로컬에서 가장 단순하며 별도 서비스(JDBC catalog, REST catalog) 없이 시작 가능
 - Iceberg 메타데이터는 warehouse 경로 아래에 저장
-- 이후 확장(PR #6~)에서 REST catalog 등으로 바꾸기 쉬움
+- 이후 확장에서 REST catalog 등으로 바꾸기 쉬움
 
 ## 설정값 근거 (spark-defaults.conf)
 
