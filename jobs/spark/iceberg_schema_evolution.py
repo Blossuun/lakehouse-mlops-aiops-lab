@@ -49,7 +49,9 @@ def main() -> int:
     null_cnt = df.where(F.col(args.new_column).isNull()).count()
     total_cnt = df.count()
 
-    print(f"OK: schema evolution verified dt={args.date} null_in_new_col={null_cnt}/{total_cnt}")
+    print(
+        f"OK: schema evolution verified dt={args.date} null_in_new_col={null_cnt}/{total_cnt}"
+    )
 
     spark.stop()
     return 0

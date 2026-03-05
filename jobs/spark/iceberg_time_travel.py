@@ -19,7 +19,9 @@ def full_table_name(catalog: str, namespace: str, table: str) -> str:
     return f"{catalog}.{namespace}.{table}"
 
 
-def get_latest_two_snapshot_ids(spark: SparkSession, full_table: str) -> tuple[Optional[int], Optional[int]]:
+def get_latest_two_snapshot_ids(
+    spark: SparkSession, full_table: str
+) -> tuple[Optional[int], Optional[int]]:
     snaps = spark.table(f"{full_table}.snapshots").select("snapshot_id", "committed_at")
     rows = snaps.orderBy(F.col("committed_at").desc()).limit(2).collect()
     if not rows:
@@ -60,9 +62,15 @@ def main() -> int:
     current_cnt = spark.table(full_table).where(F.col("dt") == args.date).count()
 
     # time travel count for dt (previous snapshot)
-    prev_cnt = read_as_of_snapshot(spark, full_table, prev).where(F.col("dt") == args.date).count()
+    prev_cnt = (
+        read_as_of_snapshot(spark, full_table, prev)
+        .where(F.col("dt") == args.date)
+        .count()
+    )
 
-    print(f"OK: time travel counts dt={args.date} current={current_cnt} previous_snapshot={prev_cnt} (prev_snapshot_id={prev})")
+    print(
+        f"OK: time travel counts dt={args.date} current={current_cnt} previous_snapshot={prev_cnt} (prev_snapshot_id={prev})"
+    )
 
     spark.stop()
     return 0
