@@ -214,6 +214,27 @@ powershell scripts/smoke_silver_quality.ps1 -Date 2026-02-27
 
 ---
 
+## 컨테이너 Spark 실행 환경에서의 운영 이슈
+
+이번 PR에서는 Spark 품질 게이트를 컨테이너 내부에서 실행하면서
+Ivy dependency cache 경로와 권한 문제가 발생했다.
+
+핵심 문제:
+- `spark.jars.ivy` 경로만 맞춘다고 끝나지 않음
+- 마운트된 디렉터리가 root 소유이면 spark 유저가 하위 디렉터리를 만들 수 없음
+- 컨테이너 전체를 root로 돌리는 방식은 동작은 하지만 과도한 권한을 부여함
+
+현재 선택:
+- Ivy 경로는 `/tmp/.ivy2`로 통일
+- 초기화는 필요한 경우에만 `docker exec -u 0 ...` 방식으로 수행
+- Spark 실행 자체는 가능한 non-root 흐름을 유지하는 방향으로 정리
+
+배운 점:
+- 컨테이너 환경에서는 “경로 존재 여부”보다 “소유권과 실행 유저”가 더 중요할 때가 많다
+- 로컬 PoC라도 smoke script는 런타임 초기화까지 포함해 재현 가능해야 한다
+
+---
+
 ## 다음 개선 아이디어
 
 - WARN / FAIL 규칙 분리
