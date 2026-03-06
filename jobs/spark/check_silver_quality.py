@@ -18,10 +18,14 @@ def parse_args():
 
 
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return (
+        datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    )
 
 
-def make_rule(name: str, passed: bool, actual, expected, severity: str = "FAIL") -> dict:
+def make_rule(
+    name: str, passed: bool, actual, expected, severity: str = "FAIL"
+) -> dict:
     return {
         "rule": name,
         "passed": bool(passed),
@@ -72,9 +76,9 @@ def main() -> int:
     )
 
     allowed_event_types = ["view", "search", "add_to_cart", "purchase", "refund"]
-    invalid_event_type_count = (
-        df.where(~F.col("event_type").isin(allowed_event_types) | F.col("event_type").isNull()).count()
-    )
+    invalid_event_type_count = df.where(
+        ~F.col("event_type").isin(allowed_event_types) | F.col("event_type").isNull()
+    ).count()
     rules.append(
         make_rule(
             "event_type_allowed",
@@ -84,9 +88,9 @@ def main() -> int:
         )
     )
 
-    invalid_schema_version_count = (
-        df.where(~F.col("schema_version").isin([1, 2]) | F.col("schema_version").isNull()).count()
-    )
+    invalid_schema_version_count = df.where(
+        ~F.col("schema_version").isin([1, 2]) | F.col("schema_version").isNull()
+    ).count()
     rules.append(
         make_rule(
             "schema_version_allowed",
@@ -116,14 +120,14 @@ def main() -> int:
         )
     )
 
-    invalid_time_order_count = (
-        df.where(
-            F.col("event_time").isNotNull()
-            & F.col("ingest_time").isNotNull()
-            & (F.col("event_time") > F.col("ingest_time"))
-        ).count()
+    invalid_time_order_count = df.where(
+        F.col("event_time").isNotNull()
+        & F.col("ingest_time").isNotNull()
+        & (F.col("event_time") > F.col("ingest_time"))
+    ).count()
+    invalid_time_order_ratio = (
+        (invalid_time_order_count / total_count) if total_count > 0 else 1.0
     )
-    invalid_time_order_ratio = (invalid_time_order_count / total_count) if total_count > 0 else 1.0
     rules.append(
         make_rule(
             "event_time_lte_ingest_time_ratio",
@@ -133,9 +137,15 @@ def main() -> int:
         )
     )
 
-    negative_price_count = df.where(F.col("price").isNotNull() & (F.col("price") < 0)).count()
-    negative_total_amount_count = df.where(F.col("total_amount").isNotNull() & (F.col("total_amount") < 0)).count()
-    negative_refund_amount_count = df.where(F.col("refund_amount").isNotNull() & (F.col("refund_amount") < 0)).count()
+    negative_price_count = df.where(
+        F.col("price").isNotNull() & (F.col("price") < 0)
+    ).count()
+    negative_total_amount_count = df.where(
+        F.col("total_amount").isNotNull() & (F.col("total_amount") < 0)
+    ).count()
+    negative_refund_amount_count = df.where(
+        F.col("refund_amount").isNotNull() & (F.col("refund_amount") < 0)
+    ).count()
 
     rules.append(
         make_rule(
@@ -162,9 +172,9 @@ def main() -> int:
         )
     )
 
-    purchase_missing_order_id_count = (
-        df.where((F.col("event_type") == "purchase") & F.col("order_id").isNull()).count()
-    )
+    purchase_missing_order_id_count = df.where(
+        (F.col("event_type") == "purchase") & F.col("order_id").isNull()
+    ).count()
     rules.append(
         make_rule(
             "purchase_requires_order_id",
@@ -174,9 +184,9 @@ def main() -> int:
         )
     )
 
-    search_missing_query_count = (
-        df.where((F.col("event_type") == "search") & F.col("search_query").isNull()).count()
-    )
+    search_missing_query_count = df.where(
+        (F.col("event_type") == "search") & F.col("search_query").isNull()
+    ).count()
     rules.append(
         make_rule(
             "search_requires_query",
@@ -186,9 +196,9 @@ def main() -> int:
         )
     )
 
-    refund_missing_amount_count = (
-        df.where((F.col("event_type") == "refund") & F.col("refund_amount").isNull()).count()
-    )
+    refund_missing_amount_count = df.where(
+        (F.col("event_type") == "refund") & F.col("refund_amount").isNull()
+    ).count()
     rules.append(
         make_rule(
             "refund_requires_amount",
@@ -214,7 +224,9 @@ def main() -> int:
 
     if args.report_out:
         # write single text file to S3/local path
-        spark.createDataFrame([(report_json,)], ["json"]).coalesce(1).write.mode("overwrite").text(args.report_out)
+        spark.createDataFrame([(report_json,)], ["json"]).coalesce(1).write.mode(
+            "overwrite"
+        ).text(args.report_out)
 
     spark.stop()
     return 0 if all_passed else 2
