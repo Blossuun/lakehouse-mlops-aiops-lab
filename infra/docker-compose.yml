@@ -82,9 +82,10 @@ services:
       - ../scripts:/opt/lab/scripts:ro
       - spark_ivy:/tmp/.ivy2
     working_dir: /opt/lab
-    command: ["/bin/bash", "-lc", "sleep infinity"]
+    command: ["/bin/bash", "-lc", "mkdir -p /tmp/.ivy2/cache /tmp/.ivy2/jars && chown -R 185:185 /tmp/.ivy2 && sleep infinity"]
     ports:
       - "4040:4040"
+    user: "0:0"
 
 volumes:
   minio_data:

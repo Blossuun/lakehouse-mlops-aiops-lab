@@ -13,6 +13,12 @@ $PACKAGES = "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$ICEBERG_VERSION,
 
 $ReportOut = "s3a://datalake/audit/quality_checks/dt=$Date"
 
+docker exec -u 0 -it lab-spark bash -lc "mkdir -p /tmp/.ivy2/cache /tmp/.ivy2/jars && chown -R 185:185 /tmp/.ivy2 && ls -ld /tmp/.ivy2 /tmp/.ivy2/cache /tmp/.ivy2/jars"
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "FAIL: could not prepare ivy cache directories inside container"
+  exit 9
+}
+
 $cmd = @(
   "docker", "exec", "-it", "lab-spark",
   "/opt/spark/bin/spark-submit",
