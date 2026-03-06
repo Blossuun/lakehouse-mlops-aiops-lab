@@ -399,6 +399,114 @@ powershell -ExecutionPolicy Bypass -File scripts/smoke_iceberg_ops.ps1 -Date 202
 
 ---
 
+## 🛡️ Data Quality Gate (Silver Table)
+
+PR #7에서는 Iceberg Silver 테이블에 대한 **데이터 품질 검증(Data Quality Gate)**을 도입합니다.
+
+목적:
+
+- Iceberg 테이블이 **분석/ML에 사용 가능한 상태인지 검증**
+- 품질 규칙 위반 시 **downstream 작업 중단**
+- 품질 결과를 **JSON 리포트로 기록**
+
+검증 대상 테이블:
+
+```
+local.lakehouse.silver_events
+```
+
+검증 범위:
+
+- 특정 `dt` 파티션 단위
+
+---
+
+## 실행 방법
+
+### 1️⃣ 로컬 인프라 실행
+
+```bash
+docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+```
+
+### 2️⃣ Silver 데이터 존재 확인
+
+```
+s3://datalake/silver/events/dt=YYYY-MM-DD/part-*.parquet
+```
+
+### 3️⃣ 품질 게이트 실행 (PowerShell)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/smoke_silver_quality.ps1 -Date 2026-02-27
+```
+
+---
+
+## 실행 결과
+
+성공 시 콘솔 출력 예:
+
+```
+INFO: Running quality gate
+OK: silver quality gate passed
+INFO: report written to s3a://datalake/audit/quality_checks/dt=2026-02-27
+```
+
+---
+
+## 품질 검증 규칙
+
+검증 규칙은 다음 문서에 정의되어 있습니다.
+
+```
+docs/data_contracts/silver_quality_rules.md
+```
+
+주요 규칙:
+
+- event_id 중복 없음
+- event_type 허용 값 확인
+- event_time / ingest_time null 금지
+- event_time <= ingest_time
+- 금액 컬럼 음수 금지
+- purchase 이벤트는 order_id 필수
+
+---
+
+## 품질 리포트 위치
+
+검증 결과는 JSON 리포트로 저장됩니다.
+
+```
+s3://datalake/audit/quality_checks/dt=YYYY-MM-DD/
+```
+
+리포트에는 다음 정보가 포함됩니다.
+
+- 검사 대상 테이블
+- 검사 시간
+- row count
+- 규칙별 pass/fail 결과
+
+---
+
+## 현재 설계의 특징
+
+현재 품질 게이트는:
+
+- 파티션 단위 검증
+- fail-fast 방식
+- 데이터 수정 없이 검증만 수행
+
+향후 확장 예정:
+
+- quarantine dataset
+- audit Iceberg table
+- WARN / FAIL 레벨 분리
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
