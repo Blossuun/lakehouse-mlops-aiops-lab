@@ -368,6 +368,37 @@ http://localhost:4040
 
 ---
 
+## 🧪 Iceberg Ops (Snapshots / Time Travel / Schema Evolution)
+
+PR #6에서는 Iceberg를 “운영 가능한 테이블”로 다루기 위해 아래를 검증합니다.
+
+- 스냅샷/히스토리 확인
+- 타임 트래블(과거 스냅샷 조회)
+- 스키마 진화(컬럼 추가) 후 호환성 확인
+
+### 실행
+
+1) 로컬 인프라 실행
+
+```bash
+docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+```
+
+2) Iceberg 테이블이 이미 존재해야 합니다(PR #5 완료)
+
+3) Smoke 실행 (Windows PowerShell)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/smoke_iceberg_ops.ps1 -Date 2026-02-27
+```
+
+### 로그 확인
+
+- PowerShell 콘솔에 spark-submit 로그가 출력됩니다.
+- 실패 시 exit code로 원인 추적이 가능합니다.
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
