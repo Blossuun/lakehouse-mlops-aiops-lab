@@ -56,14 +56,22 @@ def main() -> int:
         ),
     )
 
-    (
-        event_metrics.writeTo(
-            f"{args.catalog}.{args.gold_namespace}.daily_event_metrics"
+    target = f"{args.catalog}.{args.gold_namespace}.daily_event_metrics"
+
+    spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.gold_namespace}")
+
+    try:
+        (
+            event_metrics.writeTo(target)
+            .using("iceberg")
+            .tableProperty("format-version", "2")
+            .partitionedBy("dt")
+            .create()
         )
-        .using("iceberg")
-        .tableProperty("format-version", "2")
-        .createOrReplace()
-    )
+    except Exception:
+        pass
+
+    event_metrics.writeTo(target).overwritePartitions()
 
     # 2) daily_revenue_metrics
     revenue_metrics = (
