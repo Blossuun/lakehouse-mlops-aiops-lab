@@ -58,8 +58,6 @@ def main() -> int:
 
     target = f"{args.catalog}.{args.gold_namespace}.daily_event_metrics"
 
-    spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.gold_namespace}")
-
     try:
         (
             event_metrics.writeTo(target)
@@ -91,14 +89,20 @@ def main() -> int:
         .withColumn("net_revenue", F.col("gross_revenue") - F.col("refund_amount"))
     )
 
-    (
-        revenue_metrics.writeTo(
-            f"{args.catalog}.{args.gold_namespace}.daily_revenue_metrics"
+    revenue_target = f"{args.catalog}.{args.gold_namespace}.daily_revenue_metrics"
+
+    try:
+        (
+            revenue_metrics.writeTo(revenue_target)
+            .using("iceberg")
+            .tableProperty("format-version", "2")
+            .partitionedBy("dt")
+            .create()
         )
-        .using("iceberg")
-        .tableProperty("format-version", "2")
-        .createOrReplace()
-    )
+    except Exception:
+        pass
+
+    revenue_metrics.writeTo(revenue_target).overwritePartitions()
 
     # 3) daily_conversion_metrics
     conversion_base = df.groupBy("dt").agg(
@@ -137,14 +141,20 @@ def main() -> int:
         )
     )
 
-    (
-        conversion_metrics.writeTo(
-            f"{args.catalog}.{args.gold_namespace}.daily_conversion_metrics"
+    conversion_target = f"{args.catalog}.{args.gold_namespace}.daily_conversion_metrics"
+
+    try:
+        (
+            conversion_metrics.writeTo(conversion_target)
+            .using("iceberg")
+            .tableProperty("format-version", "2")
+            .partitionedBy("dt")
+            .create()
         )
-        .using("iceberg")
-        .tableProperty("format-version", "2")
-        .createOrReplace()
-    )
+    except Exception:
+        pass
+
+    conversion_metrics.writeTo(conversion_target).overwritePartitions()
 
     print(f"OK: built gold metrics for dt={args.date}")
 
