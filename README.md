@@ -507,6 +507,106 @@ s3a://datalake/audit/quality_checks/dt=YYYY-MM-DD/
 
 ---
 
+# 📊 Gold Layer (Business Metrics)
+
+PR #8에서는 Silver Iceberg 테이블을 기반으로 **Gold metrics 레이어**를 구축합니다.
+
+목적:
+
+- 비즈니스에서 바로 사용할 수 있는 지표 제공
+- 분석/대시보드/ML 입력 데이터 생성
+
+Source:
+
+```
+local.lakehouse.silver_events
+```
+
+생성되는 테이블:
+
+```
+local.gold.daily_event_metrics
+local.gold.daily_revenue_metrics
+local.gold.daily_conversion_metrics
+```
+
+---
+
+## Gold Metrics 생성
+
+PowerShell에서 실행:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/smoke_gold_metrics.ps1 -Date 2026-02-27
+```
+
+---
+
+## 생성되는 지표
+
+### daily_event_metrics
+
+| column | description |
+|------|-------------|
+| dt | 날짜 |
+| total_events | 전체 이벤트 수 |
+| view_events | view 이벤트 |
+| search_events | search 이벤트 |
+| add_to_cart_events | 장바구니 이벤트 |
+| purchase_events | 구매 이벤트 |
+| refund_events | 환불 이벤트 |
+
+---
+
+### daily_revenue_metrics
+
+| column | description |
+|------|-------------|
+| dt | 날짜 |
+| gross_revenue | 총 매출 |
+| refund_amount | 총 환불 |
+| net_revenue | 순매출 |
+
+---
+
+### daily_conversion_metrics
+
+| column | description |
+|------|-------------|
+| dt | 날짜 |
+| view_events | 조회 |
+| add_to_cart_events | 장바구니 |
+| purchase_events | 구매 |
+| view_to_cart_rate | 조회→장바구니 전환율 |
+| cart_to_purchase_rate | 장바구니→구매 전환율 |
+| view_to_purchase_rate | 조회→구매 전환율 |
+
+---
+
+## 데이터 흐름
+
+```
+Raw (JSONL)
+   ↓
+Silver (Clean Events)
+   ↓
+Iceberg Table
+   ↓
+Data Quality Gate
+   ↓
+Gold Metrics
+```
+
+---
+
+## Gold 레이어 특징
+
+- dt 파티션 기반 집계
+- Iceberg snapshot 기반 이력 관리
+- rerun-safe 파이프라인
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
