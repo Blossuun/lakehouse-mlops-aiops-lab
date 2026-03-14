@@ -1,9 +1,16 @@
 $ErrorActionPreference = "Stop"
 
 Write-Host "INFO: Preparing Hive cache"
-powershell -ExecutionPolicy Bypass -File scripts/prepare_hive_cache.ps1
+& "$PSScriptRoot\prepare_hive_cache.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "FAIL: Hive cache preparation failed"
+    exit 1
+}
+
+Write-Host "INFO: Rendering catalog configs"
+& "$PSScriptRoot\render_catalog_configs.ps1"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "FAIL: catalog config rendering failed"
     exit 1
 }
 
@@ -41,7 +48,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "INFO: Running Trino read smoke query"
-$result = docker exec -it lab-trino trino --execute "SELECT count(*) FROM iceberg.test.catalog_smoke"
+$result = docker exec -it lab-trino trino --output-format CSV_HEADER_UNQUOTED --execute "SELECT count(*) AS row_count FROM iceberg.test.catalog_smoke"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "FAIL: Trino shared catalog read smoke failed"
@@ -50,13 +57,13 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host $result
 
-$matches = [regex]::Matches($result, '\d+')
-if ($matches.Count -eq 0) {
+$lines = $result -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
+if ($lines.Count -lt 2) {
     Write-Host "FAIL: could not parse Trino row count output"
     exit 6
 }
 
-$rowCount = [int]$matches[$matches.Count - 1].Value
+$rowCount = [int]$lines[1].Trim()
 if ($rowCount -ne 2) {
     Write-Host "FAIL: expected row count = 2, but got $rowCount"
     exit 7

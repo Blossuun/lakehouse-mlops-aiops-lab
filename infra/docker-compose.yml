@@ -91,7 +91,7 @@ services:
     container_name: lab-hive-metastore
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       minio:
         condition: service_healthy
     environment:
@@ -99,7 +99,7 @@ services:
       DB_DRIVER: postgres
       SERVICE_OPTS: >-
         -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver
-        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/metastore
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/${HMS_DB}
         -Djavax.jdo.option.ConnectionUserName=${POSTGRES_USER}
         -Djavax.jdo.option.ConnectionPassword=${POSTGRES_PASSWORD}
       HIVE_CUSTOM_CONF_DIR: /hive_custom_conf
@@ -116,7 +116,7 @@ services:
     container_name: lab-trino
     depends_on:
       hive-metastore:
-        condition: service_started
+        condition: service_healthy
       minio:
         condition: service_healthy
     volumes:

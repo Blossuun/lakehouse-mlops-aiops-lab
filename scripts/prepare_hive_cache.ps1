@@ -1,12 +1,7 @@
 $ErrorActionPreference = "Stop"
 
-$cacheDir = Resolve-Path "." -ErrorAction SilentlyContinue
-if (-not $cacheDir) {
-    Write-Host "FAIL: could not resolve current directory"
-    exit 1
-}
-
-$cachePath = Join-Path $PWD "infra\hive\cache"
+$repoRoot = Split-Path $PSScriptRoot -Parent
+$cachePath = Join-Path $repoRoot "infra\hive\cache"
 New-Item -ItemType Directory -Force $cachePath | Out-Null
 
 $files = @(
