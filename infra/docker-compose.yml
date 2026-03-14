@@ -85,6 +85,44 @@ services:
     command: ["/bin/bash", "-lc", "sleep infinity"]
     ports:
       - "4040:4040"
+  
+  hive-metastore:
+    image: apache/hive:4.0.0
+    container_name: lab-hive-metastore
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      SERVICE_NAME: metastore
+      DB_DRIVER: postgres
+      SERVICE_OPTS: >-
+        -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/${HMS_DB}
+        -Djavax.jdo.option.ConnectionUserName=${POSTGRES_USER}
+        -Djavax.jdo.option.ConnectionPassword=${POSTGRES_PASSWORD}
+      HIVE_CUSTOM_CONF_DIR: /hive_custom_conf
+      HADOOP_CLASSPATH: /opt/hive/cache/*
+    volumes:
+      - ./hive/conf:/hive_custom_conf:ro
+      - ./hive/cache:/opt/hive/cache
+      - ./hive/lib/postgresql-42.5.1.jar:/opt/hive/lib/postgres.jar:ro
+    ports:
+      - "9083:9083"
+
+  trino:
+    image: trinodb/trino:477
+    container_name: lab-trino
+    depends_on:
+      hive-metastore:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./trino/etc:/etc/trino:ro
+    ports:
+      - "8080:8080"
 
 volumes:
   minio_data:

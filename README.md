@@ -607,6 +607,110 @@ Gold Metrics
 
 ---
 
+## 🔗 Shared Iceberg Catalog (Spark + Trino)
+
+PR #9에서는 Iceberg catalog를 **Spark 전용 Hadoop catalog**에서
+**Hive Metastore 기반 shared catalog**로 전환했습니다.
+
+이 변경의 목적은:
+
+- Spark가 Iceberg 테이블을 계속 write 할 수 있고
+- Trino가 같은 Iceberg 테이블을 read 할 수 있게 만드는 것
+
+입니다.
+
+즉, 역할이 다음처럼 분리됩니다.
+
+```text
+Spark  -> write engine
+Trino  -> read/query engine
+```
+
+---
+
+## 왜 shared catalog가 필요한가
+
+기존 Spark 설정은 `SparkCatalog + type=hadoop` 기반이었습니다.
+
+이 방식은 Spark 단독 사용에는 단순하고 잘 동작하지만,
+Trino와 같은 별도 query engine이 같은 Iceberg 테이블을 읽으려면
+공유 가능한 metastore/catalog가 필요합니다.
+
+그래서 이번 단계에서:
+
+- Hive Metastore 추가
+- Spark catalog를 `type=hive`로 전환
+- Trino Iceberg catalog를 Hive Metastore에 연결
+
+하는 방식으로 구조를 바꿨습니다.
+
+---
+
+## 현재 로컬 구성
+
+```text
+MinIO            : object storage
+Postgres         : Hive Metastore DB
+Hive Metastore   : shared Iceberg catalog backend
+Spark            : write / transform engine
+Trino            : query / analytics engine
+```
+
+---
+
+## Smoke Test
+
+공유 catalog가 제대로 작동하는지 검증하는 smoke script:
+
+```text
+scripts/smoke_shared_catalog_spark_trino.ps1
+```
+
+실행:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/smoke_shared_catalog_spark_trino.ps1
+```
+
+이 smoke는 다음을 검증합니다.
+
+1. Spark가 shared catalog를 통해 Iceberg 테이블 생성 및 write
+2. Trino가 같은 catalog를 통해 해당 테이블 read
+
+성공 시 기대 결과:
+
+```text
+OK: Shared Iceberg catalog smoke passed
+```
+
+---
+
+## Smoke 대상 테이블
+
+Smoke는 아래 테스트 테이블을 사용합니다.
+
+```text
+local.test.catalog_smoke
+```
+
+이 테이블은 smoke 실행 시마다 다시 생성되므로,
+결과는 항상 결정적(deterministic)이고 재실행 가능합니다.
+
+---
+
+## 이번 단계의 의미
+
+이제 프로젝트는 단순히 Spark로만 데이터를 다루는 상태가 아니라,
+여러 엔진이 같은 Iceberg catalog를 공유하는 구조가 되었습니다.
+
+즉, 다음 단계에서 다음이 가능해집니다.
+
+- Trino 기반 쿼리
+- dbt-trino 도입
+- analytics engineering 레이어 확장
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라

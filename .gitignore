@@ -32,3 +32,10 @@ Thumbs.db
 
 # Temporary files
 tmp/
+
+# Large Objects
+infra/hive/cache/*.jar
+
+# Credential
+infra/hive/conf/core-site.xml
+infra/trino/etc/catalog/iceberg.properties
