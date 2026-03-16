@@ -711,6 +711,81 @@ local.test.catalog_smoke
 
 ---
 
+## dbt + Trino Analytics Layer
+
+이 프로젝트는 Spark 기반 Lakehouse 위에 **dbt + Trino 기반 analytics layer**를 구축한다.
+
+전체 구조
+
+```text
+Spark  -> Iceberg write engine
+Trino  -> query engine
+dbt    -> analytics modeling layer
+```
+
+analytics 프로젝트 위치
+
+```text
+analytics/
+  models/
+    sources/
+    staging/
+    intermediate/
+    marts/
+```
+
+모델 계층
+
+| Layer | 역할 |
+|------|------|
+| source | Iceberg 테이블 선언 |
+| staging | analytics 친화적 컬럼 구조 |
+| intermediate | 재사용 가능한 계산 |
+| marts | 비즈니스 지표 모델 |
+
+---
+
+## Analytics Smoke Test
+
+사전 준비
+
+```powershell
+uv sync --dev --group analytics
+```
+
+analytics layer가 정상 동작하는지 확인
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\smoke_dbt_trino_analytics.ps1
+```
+
+검증 항목
+
+- dbt profile render
+- dbt run
+- dbt test
+- Trino mart 조회
+
+성공 시
+
+```text
+OK: dbt-trino analytics smoke passed
+```
+
+---
+
+## Query 예시
+
+Trino에서 mart 조회
+
+```sql
+SELECT * FROM iceberg.analytics.fct_daily_events;
+SELECT * FROM iceberg.analytics.fct_daily_revenue;
+SELECT * FROM iceberg.analytics.fct_daily_conversion;
+```
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라

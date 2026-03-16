@@ -7,6 +7,10 @@ requires-python = ">=3.12"
 dependencies = []
 
 [dependency-groups]
+analytics = [
+    "dbt-core>=1.11.7",
+    "dbt-trino>=1.10.1",
+]
 dev = [
     "boto3>=1.42.56",
     "faker>=40.5.1",

@@ -116,7 +116,7 @@ services:
     container_name: lab-trino
     depends_on:
       hive-metastore:
-        condition: service_healthy
+        condition: service_started
       minio:
         condition: service_healthy
     volumes:

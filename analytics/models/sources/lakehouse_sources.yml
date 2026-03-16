@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: lakehouse
+    description: "Shared Iceberg catalog source tables managed before dbt."
+    database: iceberg
+    schema: lakehouse
+    tables:
+      - name: silver_events
+        description: "Silver Iceberg event table used as the base for analytics models."
+        columns:
+          - name: event_id
+            tests:
+              - not_null
+          - name: event_type
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ['view', 'search', 'add_to_cart', 'purchase', 'refund']
+          - name: event_time
+            tests:
+              - not_null
+          - name: dt
+            tests:
+              - not_null

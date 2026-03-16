@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: fct_daily_events
+    description: "Daily event activity metrics."
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+          - unique
+      - name: event_count
+        tests:
+          - not_null
+      - name: unique_users
+        tests:
+          - not_null
+      - name: unique_sessions
+        tests:
+          - not_null
+
+  - name: fct_daily_revenue
+    description: "Daily revenue metrics derived from purchase and refund events."
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+          - unique
+      - name: order_events
+        tests:
+          - not_null
+      - name: paying_users
+        tests:
+          - not_null
+      - name: gross_revenue
+        tests:
+          - not_null
+      - name: refund_amount
+        tests:
+          - not_null
+      - name: net_revenue
+        tests:
+          - not_null
+
+  - name: fct_daily_conversion
+    description: "Daily session conversion metrics."
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+          - unique
+      - name: view_sessions
+        tests:
+          - not_null
+      - name: purchase_sessions
+        tests:
+          - not_null
+      - name: conversion_rate
+        tests:
+          - not_null

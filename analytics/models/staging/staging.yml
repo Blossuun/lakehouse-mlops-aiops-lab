@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_silver_events
+    description: "Analytics-facing staging model built from lakehouse.silver_events."
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique
+
+      - name: event_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['view', 'search', 'add_to_cart', 'purchase', 'refund']
+
+      - name: event_ts
+        tests:
+          - not_null
+
+      - name: event_date
+        tests:
+          - not_null
+
+      - name: dt
+        tests:
+          - not_null
