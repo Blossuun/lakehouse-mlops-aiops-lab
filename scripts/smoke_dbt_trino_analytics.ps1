@@ -1,5 +1,4 @@
 param(
-    [string]$Date = "2026-02-27",
     [string]$ComposeFile = ".\infra\docker-compose.yml",
     [string]$EnvFile = ".\infra\.env",
     [string]$DbtProfilesDir = ".\analytics\profiles",
@@ -59,11 +58,19 @@ if (-not (Test-Path ".\scripts\render_dbt_profile.ps1")) {
 
 $envMap = Read-DotEnv -Path $EnvFile
 
-if (-not $envMap.ContainsKey("TRINO_CATALOG")) {
-    throw "TRINO_CATALOG is missing in $EnvFile"
+$requiredKeys = @(
+    "TRINO_CATALOG",
+    "TRINO_SCHEMA"
+)
+
+foreach ($key in $requiredKeys) {
+    if (-not $envMap.ContainsKey($key) -or [string]::IsNullOrWhiteSpace($envMap[$key])) {
+        throw "Missing required env var: $key"
+    }
 }
 
 $catalog = $envMap["TRINO_CATALOG"]
+$schema = $envMap["TRINO_SCHEMA"]
 $profilesDirPath = (Resolve-Path $DbtProfilesDir).Path
 
 Invoke-Step "render dbt profile" {
@@ -74,12 +81,22 @@ Invoke-Step "ensure trino is running" {
     docker compose -f $ComposeFile up -d trino | Out-Host
 }
 
-Invoke-Step "build staging and marts" {
+Invoke-Step "check dbt availability from analytics group" {
+    Push-Location .\analytics
+    try {
+        uv run --group analytics dbt --version | Out-Host
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+Invoke-Step "build staging and mart models" {
     $env:DBT_PROFILES_DIR = $profilesDirPath
     Push-Location .\analytics
     try {
-        uv run dbt run --select stg_silver_events marts
-        uv run dbt test --select stg_silver_events marts
+        uv run --group analytics dbt run --select stg_silver_events fct_daily_events fct_daily_revenue fct_daily_conversion
+        uv run --group analytics dbt test --select stg_silver_events fct_daily_events fct_daily_revenue fct_daily_conversion
     }
     finally {
         Pop-Location
@@ -87,15 +104,15 @@ Invoke-Step "build staging and marts" {
 }
 
 Invoke-Step "verify mart row counts in trino" {
-    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.analytics.fct_daily_events" | Out-Host
-    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.analytics.fct_daily_revenue" | Out-Host
-    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.analytics.fct_daily_conversion" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.$schema.fct_daily_events" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.$schema.fct_daily_revenue" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select count(*) as row_count from $catalog.$schema.fct_daily_conversion" | Out-Host
 }
 
 Invoke-Step "verify mart contents in trino" {
-    docker exec -i $TrinoContainer trino --execute "select * from $catalog.analytics.fct_daily_events order by event_date" | Out-Host
-    docker exec -i $TrinoContainer trino --execute "select * from $catalog.analytics.fct_daily_revenue order by event_date" | Out-Host
-    docker exec -i $TrinoContainer trino --execute "select * from $catalog.analytics.fct_daily_conversion order by event_date" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select * from $catalog.$schema.fct_daily_events order by event_date" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select * from $catalog.$schema.fct_daily_revenue order by event_date" | Out-Host
+    docker exec -i $TrinoContainer trino --execute "select * from $catalog.$schema.fct_daily_conversion order by event_date" | Out-Host
 }
 
 Write-Host ""
