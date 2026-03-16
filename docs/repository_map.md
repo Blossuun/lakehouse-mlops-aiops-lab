@@ -15,6 +15,7 @@ infra
 scripts
 jobs
 docs
+analytics
 
 ---
 
@@ -96,6 +97,16 @@ This document.
 
 ---
 
+# analytics/
+
+dbt project for analytics engineering layer
+
+source / staging / marts model structure
+
+Trino-based analytics modeling on shared Iceberg catalog
+
+---
+
 # Data Platform Architecture
 
 The project implements a simplified lakehouse.
@@ -121,7 +132,7 @@ Raw ingestion
 → Iceberg tables
 → Shared catalog
 → Trino queries
-→ dbt analytics layer (next step)
+→ dbt analytics layer
 
 ---
 
@@ -135,18 +146,6 @@ Spark creates Iceberg table
 Trino reads the same table
 
 If this passes, the shared catalog works.
-
----
-
-# Next Planned Extension
-
-Analytics layer using:
-
-dbt + Trino
-
-Goal:
-
-Implement Gold models with dbt.
 
 ---
 

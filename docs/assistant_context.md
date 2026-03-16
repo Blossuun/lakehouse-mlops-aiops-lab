@@ -41,7 +41,7 @@ Trino
 Hive Metastore
 MinIO (S3 compatible object storage)
 Postgres
-dbt (다음 단계에서 도입 예정)
+dbt (Trino 기반 analytics layer)
 
 ---
 
@@ -221,9 +221,9 @@ origin/main 기준 새 브랜치 생성 후
 
 ---
 
-# 11. Next Planned Milestone
+# 11. Current Latest Milestone
 
-다음 PR 목표
+현재 최신 단계
 
 dbt-trino analytics layer
 
@@ -231,9 +231,10 @@ dbt-trino analytics layer
 
 dbt project init
 Trino profile 연결
-Gold SQL 모델 이식
+Silver source 선언
+staging / marts 모델 추가
 dbt run / dbt test
-analytics engineering layer 구축
+analytics smoke test 구축
 
 ---
 
