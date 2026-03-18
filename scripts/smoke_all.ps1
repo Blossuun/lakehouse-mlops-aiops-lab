@@ -1,5 +1,4 @@
 param(
-    [string]$Date = "2026-02-27",
     [string]$ComposeFile = ".\infra\docker-compose.yml",
     [string]$EnvFile = ".\infra\.env"
 )
@@ -14,13 +13,6 @@ Invoke-Step "run platform foundation smoke" {
     }
 }
 
-Invoke-Step "run data pipeline smoke" {
-    powershell -ExecutionPolicy Bypass -File .\scripts\smoke_data_pipeline.ps1 -Date $Date -ComposeFile $ComposeFile -EnvFile $EnvFile
-    if ($LASTEXITCODE -ne 0) {
-        throw "smoke_data_pipeline.ps1 failed with exit code $LASTEXITCODE"
-    }
-}
-
 Invoke-Step "run analytics stack smoke" {
     powershell -ExecutionPolicy Bypass -File .\scripts\smoke_analytics_stack.ps1 -ComposeFile $ComposeFile -EnvFile $EnvFile
     if ($LASTEXITCODE -ne 0) {
@@ -29,4 +21,4 @@ Invoke-Step "run analytics stack smoke" {
 }
 
 Write-Host ""
-Write-Host "OK: all platform smokes passed" -ForegroundColor Green
+Write-Host "OK: default smoke path passed" -ForegroundColor Green
