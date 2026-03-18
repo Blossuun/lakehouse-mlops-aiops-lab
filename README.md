@@ -37,6 +37,77 @@ uv run python -c "import lakehouse_mlops_aiops_lab; print('ok')"
 
 ---
 
+## ⚡ Standard Local Workflow
+
+이 프로젝트는 여러 단계의 데이터 파이프라인과 analytics 레이어를 포함합니다.  
+반복 실행 시 혼동을 줄이기 위해 **표준 실행 진입점**을 제공합니다.
+
+### 1. 기본 smoke (빠른 검증)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\smoke_all.ps1
+```
+
+검증 범위:
+- local platform bootstrap
+- MinIO / MLflow 연결
+- shared Iceberg catalog
+- dbt + Trino analytics layer
+
+→ **가장 자주 사용하는 기본 검증 경로**
+
+---
+
+### 2. 데이터 파이프라인 검증
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\smoke_data_pipeline.ps1 -Date 2026-02-27
+```
+
+검증 범위:
+- Raw ingest
+- Silver transform
+- Iceberg 적재
+- Data quality gate
+- Gold metrics 생성
+
+→ 데이터 흐름이 정상 동작하는지 확인할 때 사용
+
+---
+
+### 3. Iceberg 운영 기능 검증
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\smoke_iceberg_ops.ps1 -Date 2026-02-27
+```
+
+검증 범위:
+- snapshot / history 조회
+- time travel
+- schema evolution
+
+→ **무거운 검증**, 필요할 때만 실행
+
+---
+
+### 실행 전략
+
+| 목적 | 실행 |
+|------|------|
+| 빠른 전체 확인 | `smoke_all.ps1` |
+| 데이터 파이프라인 점검 | `smoke_data_pipeline.ps1` |
+| Iceberg 기능 검증 | `smoke_iceberg_ops.ps1` |
+
+---
+
+### 설계 원칙
+
+- 기본 경로는 항상 빠르게 유지
+- 무거운 작업은 별도 스크립트로 분리
+- 모든 단계는 독립적으로 실행 가능
+
+---
+
 ## 🧪 Development Loop (Team Standard)
 
 로컬과 CI가 항상 동일한 방식으로 실행되도록
