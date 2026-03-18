@@ -4,7 +4,7 @@ import argparse
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from pyspark.sql.types import StructField, StructType
+from pyspark.sql.types import StructType
 
 
 def parse_args() -> argparse.Namespace:
@@ -38,10 +38,7 @@ def align_df_to_schema(df, target_schema: StructType):
 def main() -> int:
     args = parse_args()
 
-    spark = (
-        SparkSession.builder.appName("silver_to_iceberg")
-        .getOrCreate()
-    )
+    spark = SparkSession.builder.appName("silver_to_iceberg").getOrCreate()
 
     silver_path = f"s3a://{args.bucket}/{args.silver_prefix}/dt={args.date}/"
     full_table = f"{args.catalog}.{args.schema}.{args.table}"
@@ -49,12 +46,7 @@ def main() -> int:
     df = spark.read.parquet(silver_path).withColumn("dt", F.lit(args.date))
 
     if not spark.catalog.tableExists(full_table):
-        (
-            df.writeTo(full_table)
-            .using("iceberg")
-            .partitionedBy(F.col("dt"))
-            .create()
-        )
+        (df.writeTo(full_table).using("iceberg").partitionedBy(F.col("dt")).create())
 
         row_count = df.count()
         print(f"OK: wrote iceberg table={full_table} dt={args.date} rows={row_count}")
@@ -64,10 +56,7 @@ def main() -> int:
     target_schema = spark.table(full_table).schema
     aligned_df = align_df_to_schema(df, target_schema)
 
-    (
-        aligned_df.writeTo(full_table)
-        .overwritePartitions()
-    )
+    (aligned_df.writeTo(full_table).overwritePartitions())
 
     row_count = aligned_df.count()
     print(f"OK: overwrote iceberg table={full_table} dt={args.date} rows={row_count}")
