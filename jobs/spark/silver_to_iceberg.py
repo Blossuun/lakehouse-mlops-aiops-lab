@@ -2,18 +2,37 @@ from __future__ import annotations
 
 import argparse
 
-from pyspark.sql import SparkSession, functions as F
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.types import StructField, StructType
 
 
-def parse_args():
-    p = argparse.ArgumentParser()
-    p.add_argument("--date", required=True, help="YYYY-MM-DD")
-    p.add_argument("--bucket", default="datalake")
-    p.add_argument("--silver_prefix", default="silver/events")
-    p.add_argument("--catalog", default="local")
-    p.add_argument("--namespace", default="lakehouse")
-    p.add_argument("--table", default="silver_events")
-    return p.parse_args()
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", required=True)
+    parser.add_argument("--bucket", default="datalake")
+    parser.add_argument("--silver-prefix", default="silver/events")
+    parser.add_argument("--catalog", default="local")
+    parser.add_argument("--schema", default="lakehouse")
+    parser.add_argument("--table", default="silver_events")
+    return parser.parse_args()
+
+
+def align_df_to_schema(df, target_schema: StructType):
+    """
+    Align a DataFrame to an existing Iceberg table schema.
+
+    Rules:
+    - if a target column is missing in df, add it as NULL cast to target type
+    - keep only target columns
+    - preserve target column order
+    """
+    for field in target_schema.fields:
+        if field.name not in df.columns:
+            df = df.withColumn(field.name, F.lit(None).cast(field.dataType))
+
+    ordered_cols = [F.col(field.name) for field in target_schema.fields]
+    return df.select(*ordered_cols)
 
 
 def main() -> int:
@@ -21,46 +40,37 @@ def main() -> int:
 
     spark = (
         SparkSession.builder.appName("silver_to_iceberg")
-        # spark-defaults.conf를 주로 쓰되, 여기서도 안전하게 UTC 고정
-        .config("spark.sql.session.timeZone", "UTC")
         .getOrCreate()
     )
 
-    # 입력 Parquet (멀티 파트)
-    silver_path = f"s3a://{args.bucket}/{args.silver_prefix}/dt={args.date}/*.parquet"
+    silver_path = f"s3a://{args.bucket}/{args.silver_prefix}/dt={args.date}/"
+    full_table = f"{args.catalog}.{args.schema}.{args.table}"
 
-    df = spark.read.parquet(silver_path)
+    df = spark.read.parquet(silver_path).withColumn("dt", F.lit(args.date))
 
-    # Iceberg 테이블 partitioning을 위해 dt 컬럼 추가
-    df = df.withColumn("dt", F.lit(args.date))
-
-    full_table = f"{args.catalog}.{args.namespace}.{args.table}"
-
-    # namespace 생성
-    spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.namespace}")
-
-    # 테이블이 없다면 생성(스키마는 DF 기반)
-    # Iceberg는 overwritePartitions가 가능하므로 rerun 안전성 확보
-    try:
+    if not spark.catalog.tableExists(full_table):
         (
             df.writeTo(full_table)
             .using("iceberg")
-            .tableProperty("format-version", "2")
-            .partitionedBy("dt")
+            .partitionedBy(F.col("dt"))
             .create()
         )
-        print(f"INFO: created iceberg table {full_table}")
-    except Exception:
-        # already exists or race — ignore
-        pass
 
-    # dt 파티션 단위 재실행 안전
-    df.writeTo(full_table).overwritePartitions()
+        row_count = df.count()
+        print(f"OK: wrote iceberg table={full_table} dt={args.date} rows={row_count}")
+        spark.stop()
+        return 0
 
-    # smoke 출력(간단 count)
-    cnt = spark.table(full_table).where(F.col("dt") == args.date).count()
-    print(f"OK: wrote iceberg table={full_table} dt={args.date} rows={cnt}")
+    target_schema = spark.table(full_table).schema
+    aligned_df = align_df_to_schema(df, target_schema)
 
+    (
+        aligned_df.writeTo(full_table)
+        .overwritePartitions()
+    )
+
+    row_count = aligned_df.count()
+    print(f"OK: overwrote iceberg table={full_table} dt={args.date} rows={row_count}")
     spark.stop()
     return 0
 
