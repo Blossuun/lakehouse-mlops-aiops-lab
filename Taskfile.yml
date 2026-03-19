@@ -1,0 +1,81 @@
+version: '3'
+
+dotenv:
+  - infra/.env
+
+tasks:
+  dev:fmt:
+    desc: Format repository
+    cmds:
+      - uv run ruff format .
+
+  dev:lint:
+    desc: Lint repository
+    cmds:
+      - uv run ruff check .
+
+  dev:test:
+    desc: Run fast pytest suite
+    cmds:
+      - uv run pytest -q
+
+  infra:up:
+    desc: Start local containers
+    cmds:
+      - docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+
+  infra:down:
+    desc: Stop local containers
+    cmds:
+      - docker compose -f infra/docker-compose.yml down
+
+  smoke:minio:
+    desc: Verify MinIO connectivity using infra/.env
+    cmds:
+      - uv run python scripts/smoke_minio.py
+
+  smoke:mlflow:
+    desc: Verify MLflow connectivity using infra/.env
+    cmds:
+      - uv run python scripts/smoke_mlflow.py
+
+  raw:
+    desc: Run deterministic raw ingest smoke
+    cmds:
+      - uv run python scripts/smoke_raw_ingest.py
+
+  silver:
+    desc: Run deterministic raw-to-silver smoke
+    cmds:
+      - uv run python scripts/smoke_silver_transform.py
+
+  iceberg:
+    desc: Load silver data into Iceberg for the default smoke date
+    cmds:
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_table.ps1" -Date 2026-02-27
+
+  iceberg:ops:
+    desc: Validate Iceberg snapshots, time travel, and schema evolution
+    cmds:
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_ops.ps1" -Date 2026-02-27
+
+  quality:
+    desc: Run the Silver quality gate for the default smoke date
+    cmds:
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_silver_quality.ps1" -Date 2026-02-27
+
+  gold:
+    desc: Build Gold metrics for the default smoke date
+    cmds:
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_gold_metrics.ps1" -Date 2026-02-27
+
+  shared-catalog:
+    desc: Validate Spark write and Trino read against the shared Iceberg catalog
+    cmds:
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_shared_catalog_spark_trino.ps1"
+
+  analytics:
+    desc: Install analytics deps and run dbt + Trino smoke
+    cmds:
+      - uv sync --dev --group analytics
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_dbt_trino_analytics.ps1"

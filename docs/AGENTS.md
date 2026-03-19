@@ -58,6 +58,21 @@ Avoid solutions that require manual steps.
 
 ---
 
+### Prefer thin task entry points for repeated local workflows
+
+For common local workflows, prefer adding a thin entry in `Taskfile.yml`
+before creating a new wrapper script.
+
+Rules:
+
+- Keep executable workflow logic in `scripts/`
+- Use `Taskfile.yml` as a lightweight index of common entry points
+- Do not create extra wrapper scripts when a task alias is enough
+- Do not add a default "run everything" end-to-end task for local development
+- Keep fast dev checks (`ruff`, `pytest`) separate from heavy platform smoke runs
+
+---
+
 ### Avoid committing large binary artifacts
 
 Never commit:
