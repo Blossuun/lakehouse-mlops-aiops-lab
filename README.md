@@ -863,6 +863,52 @@ SELECT * FROM iceberg.analytics.fct_daily_conversion;
 
 ---
 
+## Metric Layer Ownership
+
+현재 프로젝트에는 지표를 다루는 두 개의 레이어가 있다.
+
+### 1. Spark Gold metrics
+
+역할:
+
+- Spark가 생성하는 platform-owned aggregate layer
+- batch / pipeline / programmatic consumption 을 위한 집계 테이블
+- 운영 파이프라인 관점의 rerunnable aggregate artifact
+
+대표 테이블:
+
+- `local.gold.daily_event_metrics`
+- `local.gold.daily_revenue_metrics`
+- `local.gold.daily_conversion_metrics`
+
+### 2. dbt analytics marts
+
+역할:
+
+- Trino + dbt 기반 analytics-owned semantic layer
+- analyst / BI / ad hoc query 친화적 모델
+- tests / lineage / dependency 관리가 포함된 analytics engineering 결과물
+
+대표 테이블:
+
+- `iceberg.analytics.fct_daily_events`
+- `iceberg.analytics.fct_daily_revenue`
+- `iceberg.analytics.fct_daily_conversion`
+
+### 현재 원칙
+
+중요한 점은, 현재 dbt marts 가 Spark Gold 를 직접 source 로 사용하지 않는다는 것이다.
+
+현재 구조에서는:
+
+- Spark Gold = platform aggregate layer
+- dbt marts = analytics semantic layer
+
+즉, 비슷한 일별 지표가 존재할 수 있어도
+현재는 서로 다른 ownership 과 소비자를 위한 별도 레이어로 유지한다.
+
+---
+
 ## 🎯 Project Goal
 
 이 리포지토리는 단순 코드 저장소가 아니라
