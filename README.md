@@ -590,8 +590,12 @@ PR #8에서는 Silver Iceberg 테이블을 기반으로 **Gold metrics 레이어
 
 목적:
 
-- 비즈니스에서 바로 사용할 수 있는 지표 제공
-- 분석/대시보드/ML 입력 데이터 생성
+- Spark가 생성하는 platform-owned aggregate layer 제공
+- batch / pipeline / programmatic consumption 을 위한 지표 테이블 생성
+- rerunnable Spark aggregate artifact 유지
+
+이 레이어는 analyst / BI / ad hoc query 용 최종 semantic presentation layer 를 직접 목표로 하지 않는다.
+Gold 와 dbt marts 의 역할 차이는 아래 `Metric Layer Ownership` 섹션을 따른다.
 
 Source:
 

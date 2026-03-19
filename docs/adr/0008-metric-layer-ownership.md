@@ -13,27 +13,14 @@ Accepted
 1. Spark가 생성하는 Gold metrics 테이블
 2. Trino + dbt가 생성하는 analytics marts
 
-현재 구조:
+현재 관계(ownership 관점):
 
-```text
-Raw ingestion
-  -> Silver transform
-  -> Iceberg table
-  -> Data quality gate
-  -> Gold metrics
-  -> Shared Iceberg catalog
-  -> dbt analytics layer
-```
+Silver Iceberg table
+  -> Spark Gold metrics
+  -> Trino + dbt analytics layer
 
-이 두 레이어는 모두 일별 이벤트/매출/전환 관련 지표를 다룰 수 있기 때문에,
-문서상 책임 경계가 불분명하면 다음과 같은 혼란이 생긴다.
-
-- 어떤 레이어가 어떤 소비자를 위한 것인지 불명확
-- 비슷한 지표가 두 군데 있을 때 어느 쪽을 참조해야 하는지 불명확
-- 이후 PR에서 새로운 지표를 어느 레이어에 추가해야 하는지 판단 기준 부족
-
-즉, 현재 프로젝트에는 “지표 레이어가 2개 있다”는 사실보다
-“각 레이어의 소유권과 역할이 다르다”는 점을 명시적으로 정의할 필요가 있다.
+Data quality gate 는 Silver table 을 검증하는 제어 레이어다.
+Shared Iceberg catalog 는 Spark 와 Trino 가 같은 lakehouse metadata 를 공유하기 위한 공통 기반이다.
 
 ---
 
