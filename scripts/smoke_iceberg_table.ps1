@@ -16,7 +16,7 @@ $PACKAGES = @(
 ) -join ","
 
 docker exec -it lab-spark /opt/spark/bin/spark-submit `
-  --conf spark.jars.ivy=/tmp/ivy `
+  --conf spark.jars.ivy=/tmp/.ivy2 `
   --packages $PACKAGES `
   /opt/lab/jobs/spark/silver_to_iceberg.py `
   --date $Date

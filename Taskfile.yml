@@ -1,5 +1,8 @@
 version: '3'
 
+vars:
+  SMOKE_DATE: '2026-02-27'
+
 dotenv:
   - infra/.env
 
@@ -52,22 +55,22 @@ tasks:
   iceberg:
     desc: Load silver data into Iceberg for the default smoke date
     cmds:
-      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_table.ps1" -Date 2026-02-27
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_table.ps1" -Date {{.SMOKE_DATE}}
 
   iceberg:ops:
     desc: Validate Iceberg snapshots, time travel, and schema evolution
     cmds:
-      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_ops.ps1" -Date 2026-02-27
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_iceberg_ops.ps1" -Date {{.SMOKE_DATE}}
 
   quality:
     desc: Run the Silver quality gate for the default smoke date
     cmds:
-      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_silver_quality.ps1" -Date 2026-02-27
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_silver_quality.ps1" -Date {{.SMOKE_DATE}}
 
   gold:
     desc: Build Gold metrics for the default smoke date
     cmds:
-      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_gold_metrics.ps1" -Date 2026-02-27
+      - powershell.exe -ExecutionPolicy Bypass -File "./scripts/smoke_gold_metrics.ps1" -Date {{.SMOKE_DATE}}
 
   shared-catalog:
     desc: Validate Spark write and Trino read against the shared Iceberg catalog

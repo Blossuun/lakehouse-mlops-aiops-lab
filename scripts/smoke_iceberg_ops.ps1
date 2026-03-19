@@ -19,7 +19,7 @@ function Run-SparkSubmit {
 
   $baseArgs = @(
     "/opt/spark/bin/spark-submit",
-    "--conf", "spark.jars.ivy=/tmp/ivy2",
+    "--conf", "spark.jars.ivy=/tmp/.ivy2",
     "--packages", $PACKAGES
   )
 
