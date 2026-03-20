@@ -136,7 +136,6 @@ def main() -> int:
     ).collect()[0]
 
     total_count = scalar_int(metrics_row["total_count"])
-    non_null_event_id_count = scalar_int(metrics_row["non_null_event_id_count"])
     distinct_non_null_event_id_count = scalar_int(
         metrics_row["distinct_non_null_event_id_count"]
     )
