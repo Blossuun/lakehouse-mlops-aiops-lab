@@ -37,8 +37,16 @@
 
 ### Rule 2. event_id 중복이 없어야 한다
 
-- 조건: `count(event_id) == count(distinct event_id)`
+- 조건: `select event_id distinct count` 기준으로 중복이 없어야 한다
+- 해석:
+  - non-null `event_id`는 중복 없이 유일해야 한다
+  - `null`은 현재 별도의 not-null 규칙으로 강제하지 않으며,
+    distinct 계산에서는 하나의 값처럼 취급한다
 - 실패 시: FAIL
+
+현재 Rule 2의 목적은 uniqueness 검증이다.
+즉, `event_id`의 non-null 강제는 이 규칙의 범위가 아니다.
+`event_id` 자체의 not-null 강제가 필요하면 별도 규칙으로 추가한다.
 
 ### Rule 3. event_type은 허용 집합 안에 있어야 한다
 

@@ -64,7 +64,11 @@ def main() -> int:
 
     metrics_row = df.agg(
         F.count(F.lit(1)).alias("total_count"),
-        F.countDistinct("event_id").alias("distinct_event_id"),
+        F.count("event_id").alias("non_null_event_id_count"),
+        F.countDistinct("event_id").alias("distinct_non_null_event_id_count"),
+        F.sum(F.when(F.col("event_id").isNull(), 1).otherwise(0)).alias(
+            "null_event_id_count"
+        ),
         F.sum(
             F.when(
                 (~F.col("event_type").isin(allowed_event_types))
@@ -132,8 +136,18 @@ def main() -> int:
     ).collect()[0]
 
     total_count = scalar_int(metrics_row["total_count"])
-    distinct_event_id = scalar_int(metrics_row["distinct_event_id"])
-    duplicate_count = total_count - distinct_event_id
+    non_null_event_id_count = scalar_int(metrics_row["non_null_event_id_count"])
+    distinct_non_null_event_id_count = scalar_int(
+        metrics_row["distinct_non_null_event_id_count"]
+    )
+    null_event_id_count = scalar_int(metrics_row["null_event_id_count"])
+
+    # Preserve previous semantics:
+    # df.select("event_id").distinct().count() counted one null value as one distinct value.
+    effective_distinct_event_id_count = distinct_non_null_event_id_count + (
+        1 if null_event_id_count > 0 else 0
+    )
+    duplicate_count = total_count - effective_distinct_event_id_count
 
     invalid_event_type_count = scalar_int(metrics_row["invalid_event_type_count"])
     invalid_schema_version_count = scalar_int(
