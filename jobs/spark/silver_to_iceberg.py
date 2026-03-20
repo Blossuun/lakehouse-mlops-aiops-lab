@@ -59,6 +59,8 @@ def main() -> int:
 
     spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.namespace}")
 
+    created = False
+
     # create table first if missing
     if not spark.catalog.tableExists(full_table):
         (
@@ -68,14 +70,16 @@ def main() -> int:
             .partitionedBy("dt")
             .create()
         )
+        created = True
         print(f"INFO: created iceberg table {full_table}")
 
-    # if the table already exists, align DF to the current target schema
-    target_df = spark.table(full_table)
-    df = align_df_to_table_schema(df, target_df)
+    # only overwrite when the table already existed
+    if not created:
+        target_df = spark.table(full_table)
+        df = align_df_to_table_schema(df, target_df)
 
-    # rerun-safe partition overwrite
-    df.writeTo(full_table).overwritePartitions()
+        # rerun-safe partition overwrite
+        df.writeTo(full_table).overwritePartitions()
 
     cnt = spark.table(full_table).where(F.col("dt") == args.date).count()
     print(f"OK: wrote iceberg table={full_table} dt={args.date} rows={cnt}")
