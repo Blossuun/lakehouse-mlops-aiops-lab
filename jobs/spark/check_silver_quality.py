@@ -62,79 +62,74 @@ def main() -> int:
 
     allowed_event_types = ["view", "search", "add_to_cart", "purchase", "refund"]
 
-    metrics_row = (
-        df.agg(
-            F.count(F.lit(1)).alias("total_count"),
-            F.countDistinct("event_id").alias("distinct_event_id"),
-            F.sum(
-                F.when(
-                    (~F.col("event_type").isin(allowed_event_types))
-                    | F.col("event_type").isNull(),
-                    1,
-                ).otherwise(0)
-            ).alias("invalid_event_type_count"),
-            F.sum(
-                F.when(
-                    (~F.col("schema_version").isin([1, 2]))
-                    | F.col("schema_version").isNull(),
-                    1,
-                ).otherwise(0)
-            ).alias("invalid_schema_version_count"),
-            F.sum(
-                F.when(F.col("event_time").isNull(), 1).otherwise(0)
-            ).alias("null_event_time_count"),
-            F.sum(
-                F.when(F.col("ingest_time").isNull(), 1).otherwise(0)
-            ).alias("null_ingest_time_count"),
-            F.sum(
-                F.when(
-                    F.col("event_time").isNotNull()
-                    & F.col("ingest_time").isNotNull()
-                    & (F.col("event_time") > F.col("ingest_time")),
-                    1,
-                ).otherwise(0)
-            ).alias("invalid_time_order_count"),
-            F.sum(
-                F.when(
-                    F.col("price").isNotNull() & (F.col("price") < 0),
-                    1,
-                ).otherwise(0)
-            ).alias("negative_price_count"),
-            F.sum(
-                F.when(
-                    F.col("total_amount").isNotNull() & (F.col("total_amount") < 0),
-                    1,
-                ).otherwise(0)
-            ).alias("negative_total_amount_count"),
-            F.sum(
-                F.when(
-                    F.col("refund_amount").isNotNull() & (F.col("refund_amount") < 0),
-                    1,
-                ).otherwise(0)
-            ).alias("negative_refund_amount_count"),
-            F.sum(
-                F.when(
-                    (F.col("event_type") == "purchase") & F.col("order_id").isNull(),
-                    1,
-                ).otherwise(0)
-            ).alias("purchase_missing_order_id_count"),
-            F.sum(
-                F.when(
-                    (F.col("event_type") == "search")
-                    & F.col("search_query").isNull(),
-                    1,
-                ).otherwise(0)
-            ).alias("search_missing_query_count"),
-            F.sum(
-                F.when(
-                    (F.col("event_type") == "refund")
-                    & F.col("refund_amount").isNull(),
-                    1,
-                ).otherwise(0)
-            ).alias("refund_missing_amount_count"),
-        )
-        .collect()[0]
-    )
+    metrics_row = df.agg(
+        F.count(F.lit(1)).alias("total_count"),
+        F.countDistinct("event_id").alias("distinct_event_id"),
+        F.sum(
+            F.when(
+                (~F.col("event_type").isin(allowed_event_types))
+                | F.col("event_type").isNull(),
+                1,
+            ).otherwise(0)
+        ).alias("invalid_event_type_count"),
+        F.sum(
+            F.when(
+                (~F.col("schema_version").isin([1, 2]))
+                | F.col("schema_version").isNull(),
+                1,
+            ).otherwise(0)
+        ).alias("invalid_schema_version_count"),
+        F.sum(F.when(F.col("event_time").isNull(), 1).otherwise(0)).alias(
+            "null_event_time_count"
+        ),
+        F.sum(F.when(F.col("ingest_time").isNull(), 1).otherwise(0)).alias(
+            "null_ingest_time_count"
+        ),
+        F.sum(
+            F.when(
+                F.col("event_time").isNotNull()
+                & F.col("ingest_time").isNotNull()
+                & (F.col("event_time") > F.col("ingest_time")),
+                1,
+            ).otherwise(0)
+        ).alias("invalid_time_order_count"),
+        F.sum(
+            F.when(
+                F.col("price").isNotNull() & (F.col("price") < 0),
+                1,
+            ).otherwise(0)
+        ).alias("negative_price_count"),
+        F.sum(
+            F.when(
+                F.col("total_amount").isNotNull() & (F.col("total_amount") < 0),
+                1,
+            ).otherwise(0)
+        ).alias("negative_total_amount_count"),
+        F.sum(
+            F.when(
+                F.col("refund_amount").isNotNull() & (F.col("refund_amount") < 0),
+                1,
+            ).otherwise(0)
+        ).alias("negative_refund_amount_count"),
+        F.sum(
+            F.when(
+                (F.col("event_type") == "purchase") & F.col("order_id").isNull(),
+                1,
+            ).otherwise(0)
+        ).alias("purchase_missing_order_id_count"),
+        F.sum(
+            F.when(
+                (F.col("event_type") == "search") & F.col("search_query").isNull(),
+                1,
+            ).otherwise(0)
+        ).alias("search_missing_query_count"),
+        F.sum(
+            F.when(
+                (F.col("event_type") == "refund") & F.col("refund_amount").isNull(),
+                1,
+            ).otherwise(0)
+        ).alias("refund_missing_amount_count"),
+    ).collect()[0]
 
     total_count = scalar_int(metrics_row["total_count"])
     distinct_event_id = scalar_int(metrics_row["distinct_event_id"])
@@ -148,9 +143,7 @@ def main() -> int:
     null_ingest_time_count = scalar_int(metrics_row["null_ingest_time_count"])
     invalid_time_order_count = scalar_int(metrics_row["invalid_time_order_count"])
     negative_price_count = scalar_int(metrics_row["negative_price_count"])
-    negative_total_amount_count = scalar_int(
-        metrics_row["negative_total_amount_count"]
-    )
+    negative_total_amount_count = scalar_int(metrics_row["negative_total_amount_count"])
     negative_refund_amount_count = scalar_int(
         metrics_row["negative_refund_amount_count"]
     )
@@ -158,14 +151,10 @@ def main() -> int:
         metrics_row["purchase_missing_order_id_count"]
     )
     search_missing_query_count = scalar_int(metrics_row["search_missing_query_count"])
-    refund_missing_amount_count = scalar_int(
-        metrics_row["refund_missing_amount_count"]
-    )
+    refund_missing_amount_count = scalar_int(metrics_row["refund_missing_amount_count"])
 
     invalid_time_order_ratio = (
-        scalar_float(invalid_time_order_count / total_count)
-        if total_count > 0
-        else 1.0
+        scalar_float(invalid_time_order_count / total_count) if total_count > 0 else 1.0
     )
 
     rules: list[dict] = []
