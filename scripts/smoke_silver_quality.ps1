@@ -11,6 +11,12 @@ $ReportOut = "s3a://datalake/audit/quality_checks/dt=$Date"
 Write-SparkSmokeVersions
 Initialize-SparkIvyCache
 
+$rc = Initialize-SparkIvyCache
+if ($rc -ne 0) {
+  Write-Host "FAIL: could not prepare ivy cache directories inside container (exit=$rc)"
+  exit 9
+}
+
 Write-Host "INFO: Running quality gate"
 $rc = Invoke-SparkSubmit @(
   "/opt/lab/jobs/spark/check_silver_quality.py",

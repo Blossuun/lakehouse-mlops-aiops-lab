@@ -9,6 +9,12 @@ $ErrorActionPreference = "Stop"
 Write-SparkSmokeVersions
 Initialize-SparkIvyCache
 
+$rc = Initialize-SparkIvyCache
+if ($rc -ne 0) {
+  Write-Host "FAIL: could not prepare ivy cache directories inside container (exit=$rc)"
+  exit 9
+}
+
 Write-Host "INFO: Running gold metrics build"
 $rc = Invoke-SparkSubmit @(
   "/opt/lab/jobs/spark/build_gold_metrics.py",
