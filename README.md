@@ -717,6 +717,13 @@ Gold metrics 단계에서 DataFrame cache를 사용하지 않는다.
 
 - `docs/learning/0014-gold-metrics-cache-strategy.md`
 
+또한 같은 source를 여러 번 스캔하는 대신,
+single-pass aggregate 결과를 기준으로 event / revenue / conversion metrics 를 파생한다.
+
+관련 배경은 다음 문서에 정리했다.
+
+- `docs/learning/0015-single-pass-gold-aggregation.md`
+
 ---
 
 ## 🔗 Shared Iceberg Catalog (Spark + Trino)
