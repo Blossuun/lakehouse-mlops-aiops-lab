@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from pyspark.sql import DataFrame, SparkSession, functions as F
+from pyspark.sql import DataFrame, Row, SparkSession, functions as F
 
 
 def parse_args():
@@ -49,11 +49,11 @@ def main() -> int:
 
     # NOTE:
     # We intentionally avoid df.cache() for local Docker/WSL stability.
-    # We also avoid repeated groupBy scans by computing all reusable aggregates
-    # in a single pass and deriving the three Gold tables from that result.
+    # We also avoid repeated scans by materializing a single aggregated row once,
+    # then deriving the three Gold tables from that 1-row result.
     df = spark.table(silver_table).where(F.col("dt") == args.date)
 
-    base_metrics = (
+    base_metrics_row: Row = (
         df.agg(
             F.count("*").alias("total_events"),
             F.sum(F.when(F.col("event_type") == "view", 1).otherwise(0)).alias(
@@ -94,15 +94,18 @@ def main() -> int:
             "gross_revenue",
             "refund_amount",
         )
+        .collect()[0]
     )
 
-    total_count = int(base_metrics.select("total_events").collect()[0][0])
+    total_count = int(base_metrics_row["total_events"])
     if total_count == 0:
         print(f"FAIL: no rows found for dt={args.date}")
         spark.stop()
         return 2
 
     spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.gold_namespace}")
+
+    base_metrics = spark.createDataFrame([base_metrics_row.asDict()])
 
     event_metrics = base_metrics.select(
         "dt",
