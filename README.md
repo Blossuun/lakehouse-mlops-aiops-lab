@@ -236,6 +236,26 @@ http://localhost:9001
 
 ---
 
+## ⚡ Local Spark Runtime Tuning
+
+이 프로젝트는 Spark를 로컬 Docker / WSL 환경에서 반복 실행하는 실전형 랩이다.  
+기본 Spark 설정은 범용 클러스터에는 무난할 수 있지만,
+현재처럼 단일 컨테이너 기반 local smoke 실행에는 과한 경우가 있다.
+
+현재 로컬 기본 튜닝:
+
+- shuffle partitions 축소
+- adaptive query execution 활성화
+- 보수적인 driver / executor memory 고정
+
+목적은 최대 성능이 아니라 **로컬 재실행 안정성**이다.
+
+관련 배경과 이유는 다음 문서에 정리했다.
+
+- `docs/learning/0013-local-spark-runtime-tuning.md`
+
+---
+
 ## 📦 Raw Data Ingest (MinIO Data Lake)
 
 이 프로젝트는 MinIO(S3 호환)를 Data Lake처럼 사용합니다.
