@@ -27,11 +27,17 @@ def main() -> int:
 
     silver_table = f"{args.catalog}.{args.silver_namespace}.{args.silver_table}"
 
-    df = spark.table(silver_table).where(F.col("dt") == args.date).cache()
+    # NOTE:
+    # We intentionally avoid df.cache() here for local Docker/WSL stability.
+    # In local environments, caching can spill to disk if the dataset does not
+    # remain memory-resident, which can increase local I/O pressure and make
+    # reruns less stable.
+    df = spark.table(silver_table).where(F.col("dt") == args.date)
 
     total_count = df.count()
     if total_count == 0:
         print(f"FAIL: no rows found for dt={args.date}")
+        spark.stop()
         return 2
 
     spark.sql(f"CREATE NAMESPACE IF NOT EXISTS {args.catalog}.{args.gold_namespace}")
@@ -158,7 +164,6 @@ def main() -> int:
 
     print(f"OK: built gold metrics for dt={args.date}")
 
-    df.unpersist()
     spark.stop()
     return 0
 

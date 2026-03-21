@@ -710,6 +710,13 @@ Gold Metrics
 - Iceberg snapshot 기반 이력 관리
 - rerun-safe 파이프라인
 
+현재 로컬 Docker / WSL 개발 환경에서는 disk spill로 인한 불안정성을 줄이기 위해,
+Gold metrics 단계에서 DataFrame cache를 사용하지 않는다.
+
+관련 배경은 다음 문서에 정리했다.
+
+- `docs/learning/0015-gold-metrics-cache-strategy.md`
+
 ---
 
 ## 🔗 Shared Iceberg Catalog (Spark + Trino)
