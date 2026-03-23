@@ -32,6 +32,7 @@ Thumbs.db
 
 # Temporary files
 tmp/
+scripts/monitor/
 
 # Large Objects
 infra/hive/cache/*.jar
