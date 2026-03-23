@@ -24,7 +24,11 @@ def parse_args():
     p.add_argument(
         "--metrics-out",
         default=None,
-        help="optional local file path for experiment metrics output",
+        help=(
+            "optional output file path (container-local path, e.g. /tmp/results.csv). "
+            "Note: when running via docker exec, this path refers to the container filesystem, "
+            "not the host."
+        ),
     )
     return p.parse_args()
 
