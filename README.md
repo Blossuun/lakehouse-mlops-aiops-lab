@@ -645,6 +645,17 @@ PowerShell에서 실행:
 powershell -ExecutionPolicy Bypass -File scripts/smoke_gold_metrics.ps1 -Date 2026-02-27
 ```
 
+Gold metrics 단계는 실행 전략 비교를 위해 여러 모드를 지원한다.
+
+- `single-pass`
+- `with-cache`
+- `multi-pass`
+
+현재 기본값은 `single-pass`이며,
+실험 및 비교 목적의 자세한 배경은 다음 문서에 정리했다.
+
+- `docs/learning/0016-gold-metrics-experiment-framework.md`
+
 ---
 
 ## 생성되는 지표
