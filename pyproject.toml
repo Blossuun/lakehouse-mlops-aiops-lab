@@ -11,6 +11,11 @@ analytics = [
     "dbt-core>=1.11.7",
     "dbt-trino>=1.10.1",
 ]
+dashboard = [
+    "pandas>=2.3.3",
+    "streamlit>=1.55.0",
+    "trino>=0.337.0",
+]
 dev = [
     "boto3>=1.42.56",
     "faker>=40.5.1",
