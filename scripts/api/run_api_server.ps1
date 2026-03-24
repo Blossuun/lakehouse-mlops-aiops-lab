@@ -1,0 +1,1 @@
+uv run --group dashboard uvicorn apps.api_server:app --reload --port 8000
