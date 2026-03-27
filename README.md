@@ -1,89 +1,116 @@
 # Lakehouse Lab
 
-이 저장소는 로컬 Docker 환경에서 다음을 end-to-end로 구현하는 실습형 프로젝트다.
+## Overview
 
-* 데이터 생성
+이 프로젝트는 로컬 Docker 환경에서 **데이터 파이프라인부터 데이터 소비까지의 전체 lakehouse 아키텍처를 end-to-end로 구현한 실습형 프로젝트**입니다.
+
+구현 범위:
+
+* 데이터 생성 (synthetic events)
 * Silver 변환
-* Iceberg 저장
-* 품질 검증
-* Gold 집계
-* dbt 분석 레이어
-* Trino query
-* Dashboard
-* API
+* Iceberg 기반 데이터 레이크
+* 데이터 품질 검증 (quality gate)
+* Gold 집계 레이어
+* dbt 기반 분석 모델링
+* Trino query layer
+* Streamlit 대시보드
+* FastAPI 기반 API
 
-👉 즉, **데이터 파이프라인 → 데이터 소비까지 전체 흐름을 구현**한다.
+👉 단순 ETL이 아니라
+👉 **"데이터를 실제로 사용하는 시스템"까지 포함한 구조**를 목표로 합니다.
 
 ---
 
-## 🚀 Quick Start (Full System)
+## Architecture
 
-아래 두 명령으로 전체 시스템을 실행하고 검증할 수 있다.
+```
+Raw → Silver → Iceberg → Quality → Gold → dbt → Trino → Dashboard / API
+```
 
-* task infra:up
-* task validate:all
+핵심 특징:
+
+* Storage: Iceberg + MinIO
+* Compute: Spark
+* Query: Trino
+* Modeling: dbt
+* Consumption: Dashboard + API
+
+---
+
+## Quick Start
+
+### 1. 사전 준비
+
+* uv 설치
+* Task CLI 설치
+* 환경 파일 생성
+
+```
+copy .\infra\.env.example .\infra\.env
+```
+
+---
+
+### 2. 전체 시스템 실행
+
+```
+task infra:up
+powershell -ExecutionPolicy Bypass -File .\scripts\api\run_api_server.ps1
+task validate:all
+```
 
 이 과정에서:
 
 * 전체 pipeline 실행
-* query / API 포함 검증
+* query layer 검증
+* API 검증
 
-까지 한 번에 수행된다.
-
----
-
-## 🧭 전체 구조
-
-Raw → Silver → Iceberg → Quality → Gold → dbt → Trino → Dashboard / API
+까지 한 번에 수행됩니다.
 
 ---
 
-## 🐳 Local Infrastructure
+## Pipeline
 
-* task infra:up
+```
+task raw
+task silver
+task iceberg
+task quality
+task gold
+```
 
-포함 구성:
+역할:
 
-* Spark
-* Trino
-* Hive Metastore
-* MinIO
-* Postgres
-* MLflow
-
----
-
-## ⚙️ Pipeline
-
-* task raw
-* task silver
-* task iceberg
-* task quality
-* task gold
+* Raw → 이벤트 생성
+* Silver → 정제
+* Iceberg → 저장
+* Quality → 데이터 검증
+* Gold → 집계 지표 생성
 
 ---
 
-## 🔍 Query Layer
+## Query Layer (Trino)
 
-Trino를 통해 SQL을 실행한다.
+```
+powershell -ExecutionPolicy Bypass -File .\scripts\query\run_trino_query.ps1 -QueryFile .\analytics\queries\daily_business_overview.sql
+```
 
-예시:
+특징:
 
-* scripts/query/run_trino_query.ps1 사용
-* analytics/queries 디렉토리의 SQL 파일 실행
+* SQL 기반 데이터 접근
+* reproducible query 실행
+* Gold / Silver 데이터 활용
 
 ---
 
-## 📊 분석 대시보드 (Analysis Dashboard)
+## Dashboard
 
-대시보드를 통해 데이터를 시각적으로 확인할 수 있다.
+```
+uv sync --group dashboard
+powershell -ExecutionPolicy Bypass -File .\scripts\dashboard\run_analysis_dashboard.ps1
+```
 
-실행 순서:
-
-1. uv sync --group dashboard
-2. scripts/dashboard/run_analysis_dashboard.ps1 실행
-
-대시보드에서 확인 가능한 항목:
+제공 기능:
 
 * 일별 비즈니스 개요 (Gold)
 * 전환 퍼널 (Gold)
@@ -91,44 +118,50 @@ Trino를 통해 SQL을 실행한다.
 
 특징:
 
-* 모든 데이터 조회는 Trino를 통해 수행
-* 데이터 수정 없이 조회만 가능한 read-only 구조
-* 로컬 Docker / WSL 환경 기준
-
-이 레이어는 “데이터를 만드는 것”이 아니라
-**“데이터를 실제로 사용하는 방식”**을 보여준다.
+* Trino 기반 read-only 조회
+* Streamlit UI
+* 빠른 탐색 중심
 
 ---
 
-## 🔌 API
+## API Layer
 
-API를 통해 programmatic access를 제공한다.
-
-실행 순서:
-
-1. uv sync --group api
-2. scripts/api/run_api_server.ps1 실행
+```
+uv sync --group api
+powershell -ExecutionPolicy Bypass -File .\scripts\api\run_api_server.ps1
+```
 
 접속:
 
-* [http://localhost:8000/docs](http://localhost:8000/docs)
+```
+http://localhost:8000/docs
+```
 
-제공 기능:
+특징:
 
-* health check
-* Gold metrics 조회
-
----
-
-## ✅ Full Validation
-
-전체 시스템 검증:
-
-* task validate:all
+* FastAPI 기반
+* read-only endpoint
+* Trino를 통한 데이터 접근
 
 ---
 
-## 📘 Runbook
+## End-to-End Validation
+
+```
+task validate:all
+```
+
+검증 범위:
+
+* pipeline 실행
+* query 정상 동작
+* API 응답 확인
+
+👉 전체 시스템이 실제로 동작하는지 검증합니다.
+
+---
+
+## Runbook
 
 전체 실행 절차:
 
@@ -136,50 +169,38 @@ API를 통해 programmatic access를 제공한다.
 
 ---
 
-## 🎯 Project Goal
+## Key Design Decisions
 
-이 프로젝트의 목적:
+* local-first (Docker / WSL 기반)
+* read-only consumption layer
+* Trino 단일 query engine
+* stability > aggressive optimization
 
-* Spark + Iceberg 기반 데이터 파이프라인 설계
-* 품질 검증 및 집계 구조 설계
-* Trino 기반 query layer 구성
-* Dashboard / API를 통한 소비 계층 구현
+---
+
+## What This Project Demonstrates
+
+이 프로젝트는 다음 역량을 보여줍니다.
+
+* 데이터 파이프라인 설계 (Spark)
+* 데이터 레이크 설계 (Iceberg)
+* 데이터 품질 관리
+* 집계 레이어 설계 (Gold)
+* query engine 활용 (Trino)
+* 분석 레이어 (dbt)
+* 데이터 소비 계층 (Dashboard + API)
 
 👉 즉,
 
-**“데이터를 만드는 시스템”이 아니라
-“데이터를 실제로 사용하는 시스템”까지 완성하는 것**
+**"데이터를 만들고, 검증하고, 소비하는 전체 흐름"**을 구현합니다.
 
 ---
 
-## 🧩 Final State
+## Limitations
 
-이 프로젝트는 다음을 모두 포함한다.
+* production deployment 고려하지 않음
+* authentication / authorization 없음
+* multi-user 환경 미지원
+* real-time 처리 없음
 
-* pipeline ✔
-* storage ✔
-* validation ✔
-* aggregation ✔
-* query ✔
-* dashboard ✔
-* API ✔
-
-👉 **완결된 lakehouse 시스템**
-
----
-
-## 📝 Notes
-
-이 저장소는 학습/실습용 프로젝트이며 다음은 범위에 포함하지 않는다.
-
-* production deployment
-* authentication
-* multi-user system
-
----
-
-## 📌 Status
-
-👉 **Finalized**
-
-이 상태를 기준으로 프로젝트는 종료한다.
+👉 학습 및 구조 설계 중심 프로젝트입니다.
